@@ -1,0 +1,58 @@
+extends ../layout
+
+block headers
+    title Inicio
+
+block content
+    include ../includes/admin-navbar.jade
+    div.container
+        div.row
+            pre #{message}
+        div.row
+            h3.teal-text.center-align Bienvenido #{user.name}
+        div.row
+            div.col.m6.s12
+                div.card
+                    div.card-content
+                        span.card-title Cambio de clave
+                        div.row
+                            div.col.s12
+                                form(method="post",action="/home/resetpassword")
+                                    div.row
+                                        div.col.m8.offset-m2.col.s12.input-field
+                                            input.validate(type="text",name="username",placeholder="Usuario",required)
+                                            input.validate(type="password",name="password",placeholder="Clave",required)
+                                        div.col.s12.center
+                                            button.btn(type="submit")
+                                                span Cambiar
+            div.col.m6.s12
+                div.card
+                    div.card-content
+                        span.card-title Archivos para encuestas
+                        div.row
+                            div.col.m8.offset-m3.s12
+                                a(href="/survey/data/teacher/1").valign-wrapper
+                                    i.material-icons.medium.teal-text face
+                                    span.teal-text.valign Encuesta 1 docente
+                            div.col.m8.offset-m3.s12
+                                a(href="/survey/data/student/1").valign-wrapper
+                                    i.material-icons.medium.teal-text school
+                                    span.teal-text.valign Encuesta 1 estudiante
+                            div.col.m8.offset-m3.s12
+                                a(href="/survey/data/student/2").valign-wrapper
+                                    i.material-icons.medium.teal-text school
+                                    span.teal-text.valign Encuesta 2 estudiante
+        div.row
+            div.col.m6.s12
+                div.card
+                    div.card-content
+                        span.card-title Verificar usuario
+                        div.row
+                            div.col.s12
+                                form(method="post",action="/home/verifyuser")
+                                    div.row
+                                        div.col.m8.offset-m2.col.s12.input-field
+                                            input.validate(type="text",name="username",placeholder="Usuario",required)
+                                        div.col.s12.center
+                                            button.btn(type="submit")
+                                                span Consultar

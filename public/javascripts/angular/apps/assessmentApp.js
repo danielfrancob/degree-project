@@ -1,0 +1,23 @@
+angular
+.module('assessmentApp',['ngRoute','assessmentControllers'])
+.config(function($routeProvider,$locationProvider){
+    $routeProvider
+    .when('/',{
+        controller:'bank',
+        templateUrl:'/assessment/template/bank'
+    })
+    .when('/form',{
+        controller:'form',
+        templateUrl:'/assessment/template/form'
+    })
+    .when('/view',{
+        controller:'viewer',
+        templateUrl:'/assessment/template/viewer',
+    })
+    .otherwise({redirectTo:'/'});
+
+    $locationProvider.html5Mode({
+        enabled:true,
+        requireBase:true
+    });
+});

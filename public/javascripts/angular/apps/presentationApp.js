@@ -1,0 +1,39 @@
+angular
+.module('presentationApp',['ngRoute','presentationControllers'])
+.config(function($routeProvider,$locationProvider){
+    $routeProvider
+    .when('/',{
+        controller:'list',
+        templateUrl:'/presentation/template/list'
+    })
+    .when('/summary',{
+        controller:'summary',
+        templateUrl:'/presentation/template/summary'
+    })
+    .when('/question/common-base',{
+        controller:'common-base',
+        templateUrl:'/presentation/template/common-base'
+    })
+    .when('/question/matching',{
+        controller:'matching',
+        templateUrl:'/presentation/template/matching'
+    })
+    .when('/question/multiplechoice',{
+        controller:'multiplechoice',
+        templateUrl:'/presentation/template/multiplechoice'
+    })
+    .when('/question/sorting',{
+        controller:'sorting',
+        templateUrl:'/presentation/template/sorting'
+    })
+    .when('/question/true-false',{
+        controller:'true-false',
+        templateUrl:'/presentation/template/true-false'
+    })
+    .otherwise({redirectTo:'/'});
+
+    $locationProvider.html5Mode({
+        enabled:true,
+        requireBase:true
+    });
+});

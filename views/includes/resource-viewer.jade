@@ -1,0 +1,13 @@
+div.modal.modal-fixed-footer(id="modal-viewer")
+    div.modal-content
+        div.row
+            div.col.s12.center(ng-if="resource.type == 'audio'")
+                audio.audio-preview(ng-src="{{resource.url}}",controls)
+            div.col.s12.center(ng-if="resource.type == 'image'")
+                img.img-preview(ng-src="{{resource.url}}")
+            div.col.s12.center(ng-if="resource.type == 'video'")
+                video.video-preview(ng-src="{{resource.url}}",controls)
+            div.col.s12(ng-if="resource.type == 'text'")
+                div(ng-bind-html="resource.text | to_trusted")
+    div.modal-footer
+        a.btn.modal-action.modal-close(ng-click="view(null)") Cerrar

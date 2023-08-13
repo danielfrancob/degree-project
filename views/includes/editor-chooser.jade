@@ -1,0 +1,20 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-editor-chooser")
+    div.modal-content
+        div.row.center(ng-show="gallery.length == 0")
+            div.col.s12
+                p No tiene imágenes en su galería.
+        div.row.center(ng-show="gallery.length > 0")
+            div.col.l3.m4.s12(ng-repeat="file in gallery | filter:{type:'image'}")
+                div.card-panel
+                    div.card-content
+                        div.row
+                            div.col.s12
+                                h5.teal-text {{file.name}}
+                            div.col.s12
+                                img.preview(ng-src="{{file.url}}",ng-if="file.type == 'image'")
+                        div.row
+                            div.col.s12
+                                button.btn.modal-action.modal-close(ng-click="editor.insertImage(file.url)")
+                                    span Agregar
+    div.modal-footer
+        a.btn.modal-action.modal-close Cerrar

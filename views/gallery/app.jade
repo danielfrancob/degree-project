@@ -1,0 +1,27 @@
+extends ../layout
+
+block headers
+    title Galería
+    base(href="/gallery/")
+    link(rel="stylesheet",href="/stylesheets/font-awesome.min.css")
+    link(rel="stylesheet",href="/stylesheets/ng-wig.min.css")
+    script(src="/javascripts/angular/libs/angular.min.js")
+    script(src="/javascripts/angular/libs/angular-route.min.js")
+    script(src="/javascripts/angular/libs/angular-materialize.min.js")
+    script(src="/javascripts/angular/libs/angular-local-storage.min.js")
+    script(src="/javascripts/angular/libs/angular-sanitize.min.js")
+    script(src="/javascripts/angular/libs/ng-wig.min.js")
+    script(src="/javascripts/angular/components/text-editor.js")
+    script(src="/javascripts/angular/libs/ng-file-upload.min.js")
+    script(src="/javascripts/angular/libs/ng-file-upload-shim.min.js")
+    script(src="/javascripts/angular/services/galleryService.js")
+    script(src="/javascripts/angular/controllers/gallery/bank.js")
+    script(src="/javascripts/angular/controllers/gallery/edit.js")
+    script(src="/javascripts/angular/controllers/gallery/files.js")
+    script(src="/javascripts/angular/controllers/gallery/text.js")
+    script(src="/javascripts/angular/filters/filters.js")
+    script(src="/javascripts/angular/apps/galleryApp.js")
+block content
+    include ../includes/teacher-navbar.jade
+    div(ng-app="galleryApp")
+        div(ng-view="")

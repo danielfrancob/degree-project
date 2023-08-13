@@ -1,0 +1,78 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Esta es una pregunta de base común, que contiene la siguiente información:
+                    ol
+                        li 
+                            h6 El enunciado propuesto.
+                        li 
+                            h6 El recurso multimedia o elemento de base común. Puede consultar este recurso nuevamente, sin importar el modo de navegación, haciendo uso del botón 
+                                strong.teal-text Audio 
+                                | o 
+                                strong.teal-text Imagen 
+                                | o 
+                                strong.teal-text Texto 
+                                | o 
+                                strong.teal-text Video 
+                                | que aparecerá en el área de trabajo de las preguntas relacionadas.
+
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar   
+    div.row
+        div.col.s12
+            div.card
+                div.card-content
+                    div.row
+                        div.col.s12
+                            h6.teal-text.right(ng-if="go_back") Navegación libre
+                            h6.teal-text.right(ng-if="!go_back") Navegación restringida  
+                    div.row.center
+                        div.col.s12
+                            h5.teal-text Pregunta {{(question_index + 1)}} 
+                            h6.teal-text ({{question.type | translate}})
+                        div.col.s12
+                            h6 Las preguntas 
+                                strong {{(question_index + 1) + "." + (subquestion_index + 2)}} 
+                                | a 
+                                strong {{(question_index + 1) + "." + question.questions.length}} 
+                                | están relacionadas con el siguiente recurso multimedia 
+                                strong ({{question.attachment.type | translate}}).
+                    div.row
+                        div.col.s12
+                            ul.collapsible.popout(data-collapsible="expansible")
+                                li
+                                    div.collapsible-header.active
+                                        i.material-icons.teal-text info
+                                        | Enunciado
+                                    div.collapsible-body
+                                        div.editor-text(ng-bind-html="question.statement | to_trusted")
+                                li
+                                    div.collapsible-header.active
+                                        i.material-icons.teal-text collections
+                                        | Recurso multimedia ({{question.attachment.type | translate}})
+                                    div.collapsible-body
+                                        div.row
+                                            div.col.s12.center(ng-if="question.attachment.type == 'audio'")
+                                                audio.audio-preview(ng-src="{{question.attachment.url}}",controls)
+                                            div.col.s12.center(ng-if="question.attachment.type == 'image'")
+                                                img.img-preview(ng-src="{{question.attachment.url}}")
+                                            div.col.s12.center(ng-if="question.attachment.type == 'video'")
+                                                video.video-preview(ng-src="{{question.attachment.url}}",controls)
+                                            div.col.s12(ng-if="question.attachment.type == 'text'")
+                                                div(ng-bind-html="question.attachment.text | to_trusted") 
+                    div.row.center
+                        div.col.s12
+                            button.btn(ng-click="previous()",ng-if="go_back")
+                                span Anterior
+                            button.btn(ng-click="summary()",ng-if="go_back")
+                                span Resumen
+                            button.btn(ng-click="next()")
+                                span Siguiente

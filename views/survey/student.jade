@@ -1,0 +1,26 @@
+extends ../layout.jade
+
+block headers
+    title Encuesta
+
+block content
+    include ../includes/student-navbar.jade
+    div.container
+        div.row.hidden
+            div.col.s12
+        div.row
+            div.col.s12
+                h5.teal-text.center-align Encuesta para estudio de usabilidad
+                h6.teal-text.center-align Haga click en alguna encuesta para iniciar
+        div.row.center
+            div.col.m3.offset-m3.s12
+                a(href="/survey/student/1").valign-wrapper
+                    i.material-icons.medium.teal-text filter_1
+                    span.teal-text.valign Encuesta etapa 1
+            div.col.m3.offset-m1.s12
+                a(href="/survey/student/2").valign-wrapper
+                    i.material-icons.medium.teal-text filter_2
+                    span.teal-text.valign Encuesta etapa 2
+    div.row.center
+        div.col.s12
+            a.btn(href="/home") Volver

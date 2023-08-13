@@ -1,0 +1,53 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Aquí se muestran las evaluaciones que ha presentado. Si no ha presentado ninguna evaluación, el sistema le notificará. De lo contrario, para cada evaluación puede:
+                    ol
+                        li
+                            h6 Consultar los resultados, haciendo click en el botón 
+                                i.material-icons.teal-text pageview
+                                |. 
+                            h6 
+                                strong Nota: 
+                                | Si el botón se encuentra de color gris  
+                                i.material-icons.grey-text pageview
+                                |, la consulta de resultados está deshabilitada. El docente debe habilitar la consulta para que pueda ver sus resultados.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar  
+    div.row.center
+        div.col.s12
+            pre.red-text {{message}}
+    div.row.center(ng-if="list.length == 0")
+        div.col.s12
+            h5.teal-text No ha presentado evaluaciones.
+    div.row.center(ng-if="list.length > 0")
+        div.col.s12
+            h5.teal-text Resultados de evaluaciones presentadas
+    div.row.center(ng-if="list.length > 0")
+        div.col.s12
+            table.bordered.centered.highlight
+                thead
+                    tr
+                        th Nombre
+                        th Profesor
+                        th Acciones
+                tbody
+                    tr(ng-repeat="item in list")
+                        td {{item.assessment.name}}
+                        td {{item.assessment.owner.name + " " + item.assessment.owner.lastname}}
+                        td
+                            a.btn.btn-floating.tooltipped.disabled(ng-if="!item.assessment.view_record",tooltipped,data-position="bottom",data-tooltip="Ver")
+                                i.material-icons pageview
+                            a.btn.btn-floating.tooltipped(ng-if="item.assessment.view_record == true",tooltipped,data-position="bottom",data-tooltip="Ver",href="assessment",ng-click="setRecord(item._id)")
+                                i.material-icons pageview
+    div.row.center
+        div.col.s12
+            a.btn(href="/home") Volver

@@ -1,0 +1,26 @@
+extends ../layout
+
+block headers
+    title Evaluación
+    base(href="/presentation/")
+    link(rel="stylesheet",href="/stylesheets/ng-sortable.min.css")
+    script(src="/javascripts/angular/libs/angular.min.js")
+    script(src="/javascripts/angular/libs/angular-route.min.js")
+    script(src="/javascripts/angular/libs/angular-materialize.min.js")
+    script(src="/javascripts/angular/libs/angular-local-storage.min.js")
+    script(src="/javascripts/angular/libs/angular-sanitize.min.js")
+    script(src="/javascripts/angular/libs/ng-sortable.min.js")    
+    script(src="/javascripts/angular/services/presentationService.js")
+    script(src="/javascripts/angular/controllers/presentation/list.js")
+    script(src="/javascripts/angular/controllers/presentation/summary.js")
+    script(src="/javascripts/angular/controllers/presentation/common-base.js")
+    script(src="/javascripts/angular/controllers/presentation/matching.js")
+    script(src="/javascripts/angular/controllers/presentation/multiplechoice.js")
+    script(src="/javascripts/angular/controllers/presentation/sorting.js")
+    script(src="/javascripts/angular/controllers/presentation/true-false.js")
+    script(src="/javascripts/angular/filters/filters.js")
+    script(src="/javascripts/angular/apps/presentationApp.js")
+block content
+    nav.teal
+    div(ng-app="presentationApp")
+        div(ng-view="")

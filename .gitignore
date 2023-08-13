@@ -1,0 +1,8 @@
+node_modules
+public/galleries
+
+npm-debug.log
+student_1.xlsx
+student_2.xlsx
+teacher_1.xlsx
+assessment.xlsx

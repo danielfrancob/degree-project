@@ -1,0 +1,147 @@
+div.container(ng-cloak)
+    include ../../includes/resource-viewer.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Esta es una pregunta de verdadero - falso, que contiene la siguiente información:
+                    ol
+                        li 
+                            h6 El enunciado propuesto.
+                        li 
+                            h6 El recurso multimedia asociado. 
+                            h6
+                                strong Nota:  
+                                | Si no aparece, es porque la pregunta no tiene asociado un recurso.
+                        li 
+                            h6 El área de trabajo, donde aparecerán los elementos o hechos a catalogar en los conjuntos Verdadero y Falso. En este área puede:
+                            ol
+                                li
+                                    h6 Agregar elementos al conjunto Verdadero, arrastrándolos del listado de elementos a ordenar, y soltándolos en el conjunto Verdadero.
+                                li
+                                    h6 Agregar elementos al conjunto Falso, arrastrándolos del listado de elementos a ordenar, y soltándolos en el conjunto Falso.
+                                li
+                                    h6 Mover elementos entre conjuntos, arrastrándolos de un conjunto y soltándolos en otro conjunto.
+                            h6 
+                                strong Nota: 
+                                | Recuerde que todos los elementos deben clasificarse como verdaderos o falsos.
+                            h6
+                                strong Nota: 
+                                | Si esta pregunta hace parte de una pregunta de base común, aparecerá un botón llamado 
+                                strong.teal-text Audio 
+                                | o 
+                                strong.teal-text Imagen 
+                                | o 
+                                strong.teal-text Texto 
+                                | o 
+                                strong.teal-text Video 
+                                |, donde podrá consultar el recurso en el cual se basa la pregunta.
+                    p Recuerde que existen dos formas de presentación de evaluaciones:
+                    ol
+                        li
+                            h6 El modo de 
+                                strong.teal-text navegación restringida 
+                                |, donde 
+                                strong NO 
+                                | puede volver a consultar esta pregunta ni modificar su respuesta, una vez haga click en 
+                                strong.teal-text Siguiente
+                                |.
+                            h6
+                                strong Nota: 
+                                | Si está en este modo, asegúrese de indicar su respuesta y que sea la que considere correcta, antes de pasar a la siguiente respuesta.
+                        li 
+                            h6 El modo de 
+                                strong.teal-text navegación libre 
+                                |, donde puede volver a consultar esta pregunta y modificar su respuesta. Asimismo, puede visitar las preguntas en el orde que desee. 
+                            h6 Haciendo click en 
+                                strong.teal-text Anterior 
+                                | puede regresar a la pregunta inmediatamente anterior. Haciendo click en 
+                                stront.teal-text Resumen 
+                                | puede ver un listado con la totalidad de las preguntas e ir a la que desee.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar        
+    div.row
+        div.col.s12
+            div.card
+                div.card-content
+                    div.row
+                        div.col.s12
+                            h6.teal-text.right(ng-if="go_back") Navegación libre
+                            h6.teal-text.right(ng-if="!go_back") Navegación restringida                    
+                    div.row.center
+                        div.col.s12
+                            h5.teal-text(ng-if="subquestion_index == null") Pregunta {{(question_index + 1)}}
+                            h5.teal-text(ng-if="subquestion_index != null") Pregunta {{(question_index + 1) + "." + (subquestion_index + 1)}}
+                            h6.teal-text ({{question.type | translate}})
+                    div.row
+                        div.col.s12
+                            ul.collapsible.popout(data-collapsible="expansible")
+                                li
+                                    div.collapsible-header.active
+                                        i.material-icons.teal-text info
+                                        | Enunciado
+                                    div.collapsible-body
+                                        div.editor-text(ng-bind-html="question.statement | to_trusted")
+                                li(ng-if="question.attachment != null")
+                                    div.collapsible-header.active
+                                        i.material-icons.teal-text collections
+                                        | Recurso multimedia
+                                    div.collapsible-body
+                                        div.row
+                                            div.col.s12.center(ng-if="question.attachment.type == 'audio'")
+                                                audio.audio-preview(ng-src="{{question.attachment.url}}",controls)
+                                            div.col.s12.center(ng-if="question.attachment.type == 'image'")
+                                                img.img-preview(ng-src="{{question.attachment.url}}")
+                                            div.col.s12.center(ng-if="question.attachment.type == 'video'")
+                                                video.video-preview(ng-src="{{question.attachment.url}}",controls)
+                                            div.col.s12(ng-if="question.attachment.type == 'text'")
+                                                div(ng-bind-html="question.attachment.text | to_trusted") 
+                                li
+                                    div.collapsible-header.active
+                                        i.material-icons.teal-text reorder
+                                        | Área de trabajo
+                                    div.collapsible-body.list-container
+                                        div.row
+                                            div.col.s12.center
+                                                p Arrastre los elementos a los conjuntos Verdadero y Falso. Puede mover elementos entre los conjuntos.
+                                            div.col.s12.center(ng-if="resource")
+                                                button.btn.modal-trigger(modal,dismissible="false",data-target="modal-viewer")
+                                                    span {{resource.type | translate}}
+                                            div.col.m6.s12
+                                                div.card
+                                                    div.card-content
+                                                        span.card-title Verdadero
+                                                        ul.list-container(data-as-sortable="trueListener",ng-model="question.body.true")
+                                                            li.as-sortable-item(data-as-sortable-item,ng-repeat="item in question.body.true")
+                                                                div.as-sortable-item-handle(data-as-sortable-item-handle)
+                                                                    div.list-item(ng-bind-html="item.text | to_trusted")
+                                            div.col.m6.s12
+                                                div.card
+                                                    div.card-content
+                                                        span.card-title Falso
+                                                        ul.list-container(data-as-sortable="falseListener",ng-model="question.body.false")
+                                                            li.as-sortable-item(data-as-sortable-item,ng-repeat="item in question.body.false")
+                                                                div.as-sortable-item-handle(data-as-sortable-item-handle)
+                                                                    div.list-item(ng-bind-html="item.text | to_trusted")
+                                            div.col.s12
+                                                div.card
+                                                    div.card-content
+                                                        span.card-title Elementos a catalogar
+                                                        ul.list-container(data-as-sortable="containerListener",ng-model="container")
+                                                            li.as-sortable-item(data-as-sortable-item,ng-repeat="item in container")
+                                                                div.as-sortable-item-handle(data-as-sortable-item-handle)
+                                                                    div.list-item(ng-bind-html="item.text | to_trusted")
+                    div.row.center
+                        div.col.s12
+                            button.btn(ng-click="previous()",ng-if="go_back")
+                                span Anterior
+                            button.btn(ng-click="summary()",ng-if="go_back")
+                                span Resumen
+                            button.btn(ng-click="next()")
+                                span Siguiente

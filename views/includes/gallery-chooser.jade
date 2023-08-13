@@ -1,0 +1,28 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-gallery-chooser")
+    div.modal-content
+        div.row.center(ng-show="gallery.length == 0")
+            div.col.s12
+                p No tiene recursos en su galería.
+        div.row(ng-show="gallery.length > 0")
+            div.col.m4.s6(ng-repeat="file in gallery")
+                div.card-panel
+                    div.card-content
+                        div.row.center
+                            div.col.s12
+                                h5.teal-text {{file.name}}
+                        div.row
+                            div.col.s12.center(ng-if="file.type == 'audio'")
+                                audio.video-preview(ng-src="{{file.url}}",controls)
+                            div.col.s12.center(ng-if="file.type == 'image'")
+                                img.preview(ng-src="{{file.url}}")
+                            div.col.s12.center(ng-if="file.type == 'video'")
+                                video.video-preview(ng-src="{{file.url}}",controls)
+                            div.col.s12(ng-if="file.type == 'text'")
+                                div(ng-bind-html="file.text.substring(0,472) || to_trusted")
+                                span ...
+                        div.row
+                            div.col.s12.center
+                                button.btn.modal-action.modal-close(ng-click="add('attachment',file)")
+                                    span Agregar
+    div.modal-footer
+        a.btn.modal-action.modal-close Cerrar

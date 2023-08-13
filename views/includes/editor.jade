@@ -1,0 +1,10 @@
+div.modal.modal-large(id="modal-text-editor")
+    div.modal-content
+        div.row
+            div.col.s12(id="editor")
+                ng-wig.nw-editor--fixed(ng-model="editor.text")
+                button.modal-trigger.btn(modal,data-target="modal-editor-chooser")
+                    span.valign-wrapper Agregar imagen
+    div.modal-footer
+        button.btn.modal-action.modal-close(ng-click="editor.cancel()") Cerrar
+        button.btn.modal-action.modal-close(ng-disabled="editor.text.length === 0",ng-click="editor.applyChanges()") Guardar

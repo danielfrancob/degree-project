@@ -1,0 +1,150 @@
+extends ../layout.jade
+
+block headers
+    title Encuesta etapa 1
+
+block content
+    include ../includes/student-navbar.jade
+    div.container
+        div.row
+            div.col.s12
+                pre.red-text #{error}
+        div.row
+            div.col.s12
+                h5.teal-text.center-align Encuesta para estudio de usabilidad
+            div.col.s12
+                h6.center-align Responda a las siguientes preguntas con 
+                    strong Si 
+                    | o 
+                    strong No
+                    |, teniendo en cuenta su experiencia en el uso del aplicativo durante la prueba realizada.
+        div.row
+            div.col.s12
+                form(method="post",action="/survey/student/1")
+                    div.row
+                        div.col.s12
+                            table.highlight.centered.bordered
+                                tbody
+                                    tr
+                                        th Sobre la presentación de evaluaciones
+                                        th
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para iniciar la evaluación?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para navegar por la evaluación?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para resolver preguntas de correlación?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para resolver preguntas de opción múltiple?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para resolver preguntas de ordenamiento?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para resolver preguntas de verdadero o falso?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para finalizar la evaluación?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        th Sobre la consulta de resultados
+                                        th
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para interpretar los resultados generales de la evaluación?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para interpretar los resultados detallados de cada pregunta?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        th Sobre la experiencia
+                                        th
+                                    tr
+                                        td
+                                            span ¿Tuvo dificultades para manipular el dispositivo usado en la prueba?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span Antes de esta experiencia, ¿Había sido evaluado usando algún aplicativo (software)?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿La explicación proporcionada fue suficiente para comprender el funcionamiento del aplicativo y poder usarlo?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                    div.row.center
+                        div.col.m4.offset-m2.s6
+                            button.btn(type="submit")
+                                span Guardar
+                        div.col.m4.s6
+                            a.btn(href="/home") Volver

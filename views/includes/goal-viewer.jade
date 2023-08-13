@@ -1,0 +1,41 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-goal-chooser")
+    div.modal-content
+        div.row
+            div.col.s6
+                div.card
+                    div.card-content
+                        span.card-title Logros de la evaluación
+                        div.row
+                            div.col.s12
+                                ul.list-container.center
+                                    li.list-item(ng-repeat="goal in assessment.goals")
+                                        div.row
+                                            div.col.s4
+                                                span Logro {{goal.index + 1}}
+                                            div.col.s7
+                                                span {{goal.name}}
+            div.col.s6
+                div.card
+                    div.card-content
+                        span.card-title Logros de la pregunta
+                        div.row
+                            div.col.s12(ng-if="question.subindex == null")
+                                ul.list-container.center
+                                    li.list-item(ng-repeat="goal in assessment.questions[question.index].goals")
+                                        div.row
+                                            div.col.s4
+                                                span Logro {{goal.index + 1}}
+                                            div.col.s7
+                                                span {{goal.name}}
+
+                            div.col.s12(ng-if="question.subindex != null")
+                                ul.list-container.center
+                                    li.list-item(ng-repeat="goal in assessment.questions[question.index].question.questions[question.subindex].goals")
+                                        div.row
+                                            div.col.s4
+                                                span Logro {{goal.index + 1}}
+                                            div.col.s7
+                                                span {{goal.name}}
+    div.modal-footer
+        a.btn.modal-action.modal-close(ng-click="setQuestion(null,null)") Cerrar
+

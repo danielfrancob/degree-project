@@ -1,0 +1,54 @@
+div.container(ng-cloak)
+    include password.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Aquí se encuentran las evaluaciones que puede presentar. Realice los siguientes pasos para tomar una evaluación:
+                    ol
+                        li Elija la evaluación que desea presentar.
+                        li Haga click en el botón 
+                            strong.teal-text Iniciar.
+                        li Ingrese la clave o código proporcionado por el docente y haga click en 
+                            strong.teal-text Validar 
+                            | para acceder a la evaluación o click en 
+                            strong.teal-text Cancelar
+                            | para salir.
+                        li Si la información proporcionada es correcta, saldrá un aviso indicándole que puede iniciar la evaluación, acompañado del botón 
+                            strong.teal-text Iniciar
+                            |.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar     
+    div.row
+        div.col.s12
+            pre.red-text {{message}}
+    div.row.center(ng-if="list.length == 0")
+        div.col.s12
+            h5.teal-text No hay evaluaciones para presentar.
+    div.row(ng-if="list.length > 0")
+        div.col.s12.center
+            h5.teal-text Evaluaciones disponibles en el sistema
+    div.row(ng-if="list.length > 0")
+        div.col.s12
+            table.bordered.centered.highlight
+                thead
+                    tr
+                        th Nombre
+                        th Profesor
+                        th Acciones
+                tbody
+                    tr(ng-repeat="assessment in list")
+                        td {{assessment.name}}
+                        td {{assessment.owner.name + " " + assessment.owner.lastname}}
+                        td
+                            button.btn.modal-trigger(modal,dismissible="false",data-target="modal-password",ng-click="setAssessment($index)")
+                                span Iniciar
+    div.row.center
+        div.col.s12
+            a.btn(href="/home") Volver

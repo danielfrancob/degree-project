@@ -1,0 +1,67 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Aquí se observa la estructura y los elementos de la pregunta de ordenamiento. Puede ver:
+                    ol
+                        li El nombre dado a la pregunta.
+                        li El enunciado propuesto.
+                        li El elemento multimedia (Si fue definido).
+                        li La lista de elementos en el orden definido, que conforman la respuesta.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar 
+    div.row
+        div.col.s12
+            pre.red-text {{message}}
+    div.row
+        div.col.s12
+            h5.teal-text.center-align {{question.name}}
+            h6.teal-text.center-align Pregunta de ordenamiento
+        div.col.s12
+            ul.collapsible.popout(data-collapsible="expandible")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text info
+                        | Enunciado
+                    div.collapsible-body
+                        div.row
+                            div.col.s12
+                                div.editor-text(ng-bind-html="question.statement | to_trusted")
+                li(ng-show="question.attachment")
+                    div.collapsible-header.active
+                        i.material-icons.teal-text collections
+                        | Recurso multimedia
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center(ng-if="question.attachment.type == 'audio'")
+                                audio.audio-preview(ng-src="{{question.attachment.url}}",controls)
+                            div.col.s12.center(ng-if="question.attachment.type == 'image'")
+                                img.img-preview(ng-src="{{question.attachment.url}}")
+                            div.col.s12.center(ng-if="question.attachment.type == 'video'")
+                                video.video-preview(ng-src="{{question.attachment.url}}",controls)
+                            div.col.s12(ng-if="question.attachment.type == 'text'")
+                                div(ng-bind-html="question.attachment.text | to_trusted")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text reorder
+                        | Elementos a ordenar
+                    div.collapsible-body.list-container
+                        div.row
+                            div.col.s12
+                                div.card
+                                    div.card-content
+                                        span.card-title Elementos ordenados
+                                        ul.list-container
+                                            li.list-item(ng-repeat="item in question.body.answer")
+                                                div(ng-bind-html="item.text | to_trusted")
+    div.row
+        div.col.s12.center
+            a.btn(href="/question",ng-click="exit()")
+                span Volver

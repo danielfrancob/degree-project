@@ -1,0 +1,62 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    p Haga click en 
+                        strong.teal-text Nueva Evaluación 
+                        | para abrir el formulario de creación de evaluaciones.
+                    p Para cada evaluación del listado puede:
+                    ol
+                        li
+                            h6 Usar el botón 
+                                i.material-icons.teal-text pageview 
+                                | para visualizarla.
+                        li
+                            h6 Usar el botón
+                                i.material-icons.teal-text edit 
+                                | para editarla.
+                        li
+                            h6 Usar el botón
+                                i.material-icons.teal-text delete
+                                | para borrarla.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar 
+    div.row.center
+        div.col.s12
+            pre {{message}}
+    div.row.center(ng-if="bank.length == 0")
+        div.col.s12
+            h5.teal-text No tiene evaluaciones en el sistema.
+    div.row.center(ng-if="bank.length > 0")
+        div.col.s12
+            h5.teal-text Evaluaciones en el sistema
+    div.row.center
+        div.col.s12
+            a.btn(href="form",ng-click="setAssessment(null)") Nueva evaluación
+    div.row(ng-if="bank.length > 0")
+        div.col.s12
+            table.bordered.centered.highlight
+                thead
+                    tr
+                        th Nombre
+                        th Acciones
+                tbody
+                    tr(ng-repeat="assessment in bank")
+                        td {{assessment.name}}
+                        td
+                            a.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Ver",ng-click="setAssessment(assessment._id)",href="view")
+                                i.material-icons pageview
+                            a.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Editar",ng-click="setAssessment(assessment._id)",href="form")
+                                i.material-icons edit
+                            button.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Borrar",ng-click="delete(assessment._id)")
+                                i.material-icons delete
+    div.row.center
+        div.col.s12
+            a.btn(href="/home") Volver

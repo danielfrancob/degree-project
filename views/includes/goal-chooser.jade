@@ -1,0 +1,50 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-goal-chooser")
+    div.modal-content
+        div.row
+            div.col.s12.center
+                p Para definir los logros de la pregunta, arrastre elementos del conjunto logros al conjunto Logros de la pregunta.
+            div.col.s6
+                div.card
+                    div.card-content
+                        span.card-title Logros de la evaluación
+                        p.center(ng-if="assessment.goals.length == 0") No ha definido logros para la evaluación
+                        ul.list(data-as-sortable="goalListener",ng-model="assessment.goals",ng-if="assessment.goals.length > 0") 
+                            li.as-sortable-item(data-as-sortable-item,ng-repeat="goal in assessment.goals")
+                                div.as-sortable-item-handle.list-item.row(data-as-sortable-item-handle)
+                                    div.col.s4
+                                        span Logro {{goal.index + 1}}
+                                    div.col.s7
+                                        span {{goal.name}}
+            div.col.s6
+                div.card
+                    div.card-content
+                        span.card-title Logros de la pregunta
+                        p.center(ng-if="assessment.goals.length == 0") No ha definido logros para la evaluación
+                        div.row(ng-if="assessment.goals.length > 0") 
+                            div.col.s12(ng-if="question.subindex == null")
+                                ul.list(data-as-sortable="questionListener",ng-model="assessment.questions[question.index].goals",ng-if="!question.subindex")
+                                    li.as-sortable-item(data-as-sortable-item,ng-repeat="goal in assessment.questions[question.index].goals")
+                                        div.as-sortable-item-handle.list-item.row.center(data-as-sortable-item-handle)
+                                            div.col.s4
+                                                span Logro {{goal.index + 1}}                                                
+                                            div.col.s6
+                                                span {{goal.name}}
+                                            div.col.s2
+                                                div
+                                                    button.btn.btn-floating(ng-click="remove('goal',$index)")
+                                                        i.material-icons delete
+                            div.col.s12(ng-if="question.subindex != null")
+                                ul.list(data-as-sortable="questionListener",ng-model="assessment.questions[question.index].question.questions[question.subindex].goals")
+                                    li.as-sortable-item(data-as-sortable-item,ng-repeat="goal in assessment.questions[question.index].question.questions[question.subindex].goals")
+                                        div.as-sortable-item-handle.list-item.row(data-as-sortable-item-handle)
+                                            div.col.s4
+                                                span Logro {{goal.index + 1}}                                                
+                                            div.col.s6
+                                                span {{goal.name}}
+                                            div.col.s2
+                                                div
+                                                    button.btn.btn-floating(ng-click="remove('goal',$index)")
+                                                        .material-icons delete
+    div.modal-footer
+        a.btn.modal-action.modal-close(ng-click="setQuestion(null,null)") Cerrar
+

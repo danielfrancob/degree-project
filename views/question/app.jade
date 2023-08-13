@@ -1,0 +1,30 @@
+extends ../layout
+
+block headers
+    title Preguntas
+    base(href="/question/")
+    link(rel="stylesheet",href="/stylesheets/font-awesome.min.css")
+    link(rel="stylesheet",href="/stylesheets/ng-wig.min.css")
+    link(rel="stylesheet",href="/stylesheets/ng-sortable.min.css")
+    script(src="/javascripts/angular/libs/angular.min.js")
+    script(src="/javascripts/angular/libs/angular-route.min.js")
+    script(src="/javascripts/angular/libs/angular-materialize.min.js")
+    script(src="/javascripts/angular/libs/angular-local-storage.min.js")
+    script(src="/javascripts/angular/libs/angular-sanitize.min.js")
+    script(src="/javascripts/angular/libs/ng-wig.min.js")
+    script(src="/javascripts/angular/libs/ng-sortable.min.js")
+    script(src="/javascripts/angular/components/text-editor.js")
+    script(src="/javascripts/angular/services/questionService.js")
+    script(src="/javascripts/angular/controllers/question/bank.js")
+    script(src="/javascripts/angular/controllers/question/viewer.js")
+    script(src="/javascripts/angular/controllers/question/common-base/form.js")
+    script(src="/javascripts/angular/controllers/question/matching/form.js")
+    script(src="/javascripts/angular/controllers/question/multiplechoice/form.js")
+    script(src="/javascripts/angular/controllers/question/sorting/form.js")
+    script(src="/javascripts/angular/controllers/question/true-false/form.js")
+    script(src="/javascripts/angular/filters/filters.js")
+    script(src="/javascripts/angular/apps/questionApp.js")
+block content
+    include ../includes/teacher-navbar.jade
+    div(ng-app="questionApp")
+        div(ng-view="")

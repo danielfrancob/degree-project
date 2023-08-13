@@ -1,0 +1,193 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    p Aqui podrá visualizar los resultados generales de la evaluación. Si ningún estudiante ha presentado la evaluación, el sistema le notificará. De lo contrario, encontrará la siguiente información:
+                    ol
+                        li
+                            h6 Una visión general de la evaluación, donde encontrará: la cantidad de estudiantes que la han presentado, la cantidad que ha aprobado y reprobado. Asimismo, esta información es expresada en términos porcentuales y graficada.
+                        li
+                            h6 Un análisis por logros, donde encontrará el desempeño promedio de los estudiantes que han presentado la evaluación, expresado en términos porcentuales, para cada uno de los logros. Asimismo, se grafíca dicha información.
+                        li
+                            h6 Un comparativo por pregunta, donde encontrará la calificación promedio de cada una, de los estudiantes que han presentado la evaluación.
+                        li
+                            h6 El listado de los estudiantes que han presentado la evaluación, relacionando la nota obtenida y la opción de consultar en detalle sus resultados, por medio del botón
+                                i.material-icons.teal-text pageview
+                            h6
+                                strong Nota: 
+                                | Puede descargar el listado de estudiantes y su nota definitiva, haciendo click en el botón
+                                i.material-icons.teal-text file_download
+                                |.
+                            h6 
+                                strong Nota: 
+                                | Puede filtrar el resultado, introduciendo un patrón de búsqueda en el campo de texto en la parte superior de la sección.
+
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar 
+    div.row.center
+        div.col.s12
+            pre.red-text {{message}}
+    div.row.center(ng-if="assessment.records.length > 0")
+        div.col.s12
+            h5.teal-text {{assessment.name}}
+    div.row.center(ng-if="assessment.records.length == 0")
+        div.col.s12
+            h5.teal-text Ningún estudiante ha presentado esta evaluación.
+     div.row(ng-if="assessment.records.length > 0")
+        div.col.s12
+            ul.collapsible.popout(data-collapsible="expansible")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text info
+                        | Resultados generales de la evaluación
+                    div.collapsible-body
+                        div.card
+                            div.card-content
+                                div.row
+                                    div.col.m6.s12
+                                        div.card-panel
+                                            div.card-content
+                                                table.bordered.centered.highlight
+                                                    thead
+                                                        th Ítem
+                                                        th Cantidad
+                                                        th Porcentaje
+                                                    tbody
+                                                        tr
+                                                            td Total de estudiantes
+                                                            td {{assessment.records.length}}
+                                                            td 100 %
+                                                        tr
+                                                            td Estudiantes aprobados
+                                                            td {{assessment.pass_count[0]}}
+                                                            td {{pass_chart.data[0]}} %
+                                                        tr
+                                                            td Estudiantes reprobados
+                                                            td {{assessment.pass_count[1]}}
+                                                            td {{pass_chart.data[1]}} %
+                                    div.col.m6.s12
+                                        div.card-panel
+                                            div.card-content
+                                                div.row
+                                                    div.col.s12
+                                                        canvas.chart.chart-pie(chart-data="pass_chart.data",chart-labels="pass_chart.labels",chart-colors="pass_chart.colors",chart-options="pass_chart.options")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text school
+                        | Resultados del curso por logro
+                    div.collapsible-body
+                        div.card
+                            div.card-content
+                                div.row
+                                    div.col.s12
+                                        div.card-panel
+                                            div.card-content
+                                                table.bordered.centered.highlight.responsive-table
+                                                    thead
+                                                        th No.
+                                                        th Logro
+                                                        th Descripción
+                                                        th Preguntas asociadas
+
+                                                    tbody
+                                                        tr(ng-repeat="item in assessment.goals")
+                                                            td {{$index + 1}}
+                                                            td {{item.name}}
+                                                            td {{item.text}}
+                                                            td
+                                                                span(ng-repeat="question in item.questions") {{question}}{{$last ? "" : ", "}}
+                                    div.col.m7.s12
+                                        div.card-panel
+                                            div.card-content
+                                                canvas.chart.chart-polar-area(chart-data="goal_chart.data",chart-labels="goal_chart.labels",chart-options="goal_chart.options")
+                                    div.col.m5.s12
+                                        div.card-panel
+                                            div.card-content
+                                                table.bordered.centered.highlight.responsive-table
+                                                    thead
+                                                        th No.
+                                                        th Logro
+                                                        th Desempeño
+                                                    tbody
+                                                        tr(ng-repeat="item in assessment.goals")
+                                                            td {{$index + 1}}
+                                                            td {{item.name}}
+                                                            td {{item.score}} %
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text question_answer
+                        | Resultados del curso por pregunta
+                    div.collapsible-body
+                        div.row
+                            div.col.s12
+                                div.card-panel
+                                    div.card-content
+                                        table.bordered.centered.highlight
+                                            thead
+                                                tr
+                                                    th Pregunta
+                                                    th Tipo
+                                                    th Nota máx.
+                                                    th Nota prom.
+                                            tbody(ng-repeat="question in assessment.questions",ng-init="question_index = $index")
+                                                tr
+                                                    td {{question_index + 1}}
+                                                    td {{question.type | translate}}
+                                                    td 
+                                                        span(ng-if="question.type != 'common-base'") {{question.max_score}}
+                                                        span(ng-if="question.type == 'common-base'") -
+                                                    td 
+                                                        span(ng-if="question.type != 'common-base'") {{question.score}}
+                                                        span(ng-if="question.type == 'common-base'") -
+                                                tr(ng-repeat="subquestion in question.questions",ng-init="subquestion_index = $index")
+                                                    td {{question_index + 1}}.{{subquestion_index + 1}}
+                                                    td {{subquestion.type | translate}}
+                                                    td {{subquestion.max_score}}
+                                                    td {{subquestion.score}}
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text reorder
+                        | Resultados por estudiante
+                    div.collapsible-body
+                        div.card
+                            div.card-content
+                                div.row
+                                    div.col.s12
+                                        a.btn.btn-floating.right.tooltipped(tooltipped,data-tooltip="Descargar notas",data-position="bottom",href="file/{{assessment._id}}",target="_blank")
+                                            i.material-icons file_download
+                                    div.col.s12.center
+                                        h6 Haga click en
+                                            i.material-icons.teal-text.valign-wrapper pageview
+                                            | para consultar en detalle el resultado de cada estudiante.
+                                    div.col.s10.offset-s1
+                                        input(type="text",ng-model="pattern",placeholder="Escriba un patrón para filtrar el listado de estudiantes")
+                                    div.col.s12
+                                        div.card-panel
+                                            table.bordered.centered.highlight
+                                                thead
+                                                    tr
+                                                        th No.
+                                                        th Apellidos
+                                                        th Nombres
+                                                        th Nota
+                                                        th Acciones
+                                                tbody(ng-repeat="record in assessment.records | orderBy:'student.lastname' | filter:pattern")
+                                                    tr
+                                                        td {{$index + 1}}
+                                                        td {{record.student.lastname}}
+                                                        td {{record.student.name}}
+                                                        td {{record.score}}
+                                                        td
+                                                            a.btn.btn-floating.tooltipped(href="assessment/student",ng-click="setRecord(record._id)",tooltipped,data-position="bottom",data-tooltip="Ver")
+                                                                i.material-icons pageview
+    div.row.center
+        div.col.s12
+            a.btn(href="/record",ng-click="clear()")
+                span Volver

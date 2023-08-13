@@ -1,0 +1,215 @@
+div.container(ng-cloak)
+    include ../../includes/editor.jade
+    include ../../includes/editor-chooser.jade
+    include ../../includes/gallery-chooser.jade
+    include ../../includes/matching-editor.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Para crear o editar una pregunta de correlación, haga lo siguiente:
+                    ol
+                        li
+                            h6 Asigne un nombre, que identificará la pregunta en el sistema.
+                        li
+                            p Con el botón  
+                                strong.teal-text Editor 
+                                | abra el editor e ingrese el enunciado, pudiendo aplicar varias opciones para dar formato, según lo requiera.
+                                | Con el botón 
+                                strong.teal-text Agregar Imagen 
+                                | puede elegir imágenes de su galería, para acompañar al texto que está construyendo. Para guardar el enunciado use el botón 
+                                strong.teal-text Guardar 
+                                | .Use el botón 
+                                strong.teal-text Cerrar 
+                                | para salir del editor y no guardar los cambios realizados. 
+                            p Use el botón  
+                                strong.teal-text Borrar 
+                                | para eliminar el enunciado.
+                        li
+                            p Asigne un recurso multimedia de su galería, ya sea audio, imagen, texto o video. Recuerde que debe cargar previamente estos elementos. 
+                            p Con el botón 
+                                strong.teal-text Agregar 
+                                | abra un selector de elementos multimedia, donde puede agregar el elemento que desee, pulsando el botón 
+                                strong.teal-text Agregar 
+                                | presente en cada elemento.
+                            p Con el botón 
+                                strong.teal-text Borrar 
+                                | remueva el elemento que haya asignado previamente.
+                            p
+                                strong NOTA: 
+                                | Este recurso es opcional en las preguntas de correlación.
+                        li
+                            p Cree los elementos y las categorías de la pregunta, haciendo uso del botón 
+                                i.material-icons.teal-text add
+                                | presente en la parte superior derecha de cada conjunto.
+                            p Para los elementos se abrirá el editor. Agrege el texto para un elemento, así como una imagen de su galería si lo requiere. 
+                            p Para las categorías, se solicitará un nombre.
+                            p Asigne los elementos a las categorías, haciendo uso del botón
+                                i.material-icons.teal-text pageview
+                                | presente en cada categoría. Debe arrastrar y soltar los elementos que desee pertenezcan a una categoría.
+                            p Puede borrar elementos y categorías, haciendo uso del botón 
+                                i.material-icons.teal-text delete
+                                | .Si borra un elemento, este se removerá de las categorías a las que fue asignado.
+                        li 
+                            h6 Al finalizar, use el botón 
+                                strong.teal-text Guardar 
+                                | para guardar la pregunta, o 
+                                strong.teal-text Cancelar 
+                                | para salir y no guardar las acciones realizadas.
+                    h6 Cada caja o sección, en la parte superior derecha muestra alguno de los siguientes íconos:
+                    ol
+                        li 
+                            i.material-icons.red-text error 
+                            | que indica que no ha ingresado la información, o falta algún campo por llenar.
+                        li 
+                            i.material-icons.teal-text check_circle
+                            | que indica que ha completado la información solicitada.
+                        li
+                            i.material-icons.yellow-text warning 
+                            | que indica que el elemento es opcional.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar
+    div.row.center(ng-show="success")
+        div.col.s12
+            p.teal-text
+                i.material-icons.large check_circle
+        div.col.s12
+            h5.teal-text La pregunta ha sido almacenada correctamente.
+        div.col.s12
+            a.btn(href="/question",ng-click="exit()")
+                span Volver
+    div.row(ng-show="!success")
+        div.col.s12
+            pre.red-text {{message}}
+    div.row(ng-show="!success")
+        div.col.s12
+            h5.teal-text.center-align Pregunta de correlación
+        div.col.s12
+            ul.collapsible.popout(data-collapsible="expandible")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text create 
+                        | Datos básicos
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="question.name") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="!question.name") error
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center
+                                p Escriba un nombre para identificar la pregunta en el sistema.
+                            div.input-field.col.s10.offset-s1
+                                input(type="text",name="name",ng-model="question.name")
+                                label(for="name") Nombre
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text info
+                        | Enunciado
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="question.statement") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="!question.statement") error
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center
+                                p Haga click en Editor para agregar o modificar su enunciado. Borrar, para eliminarlo.
+                            div.col.s12
+                                div.editor-text(ng-bind-html="question.statement | to_trusted")
+                            div.col.s12.center
+                                button.modal-trigger.btn(modal,dismissible="false",data-target="modal-text-editor",ng-click="editor.setSection('statement')")
+                                    span Editor
+                                button.btn(ng-click="remove('statement')")
+                                    span Borrar
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text collections
+                        | Recurso multimedia
+                        i.material-icons.right.yellow-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Puede agregar un recurso multimedia",ng-show="!question.attachment") warning
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="question.attachment") check_circle
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center
+                                p Haga click en Agregar para insertar o modificar un recurso multimedia. Borrar, para eliminalo.
+                            div.col.s12.center(ng-if="question.attachment.type == 'audio'")
+                                audio.audio-preview(ng-src="{{question.attachment.url}}",controls)
+                            div.col.s12.center(ng-if="question.attachment.type == 'image'")
+                                img.img-preview(ng-src="{{question.attachment.url}}")
+                            div.col.s12.center(ng-if="question.attachment.type == 'video'")
+                                video.video-preview(ng-src="{{question.attachment.url}}",controls)
+                            div.col.s12(ng-if="question.attachment.type == 'text'")
+                                div(ng-bind-html="question.attachment.text | to_trusted")                             
+                            div.col.s12.center
+                                button.modal-trigger.btn(modal,dismissible="false",data-target="modal-gallery-chooser")
+                                    span Agregar
+                                button.btn(ng-click="remove('attachment')")
+                                    span Borrar
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text reorder
+                        | Elementos y Categorías
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="question.body.concepts.length > 0 && question.body.categories.length > 0 && validateCategories()") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="question.body.concepts.length == 0 || question.body.categories.length == 0 || !validateCategories()") error
+                    div.collapsible-body.list-container
+                        div.row
+                            div.col.s12.center
+                                p Haga click en
+                                    i.material-icons.teal-text.valign-wrapper add
+                                    | para agregar un elemento o una categoría.
+                                    | Haga click en 
+                                    i.material-icons.teal-text.valign-wrapper pageview
+                                    | para abrir una categoría.
+                                    | Click en 
+                                    i.material-icons.teal-text.valign-wrapper edit 
+                                    | para editar o click en
+                                    i.material-icons.teal-text.valign-wrapper delete
+                                    | para borrar.
+                        div.row
+                            div.col.m6.s12
+                                div.card
+                                    div.card-content
+                                        span.card-title Elementos
+                                        a.right.btn.btn-floating.modal-trigger(modal,dismissible="false",href="#modal-text-editor",ng-click="editor.setSection('concepts')")
+                                            i.material-icons add
+                                        div.row
+                                            div.col.s12
+                                                ul.list
+                                                    li(ng-repeat="concept in question.body.concepts")
+                                                        div.row
+                                                            div.col.m9.s12
+                                                                div.list-item(ng-bind-html="concept.text | to_trusted")
+                                                            div.col.m3.s12.center
+                                                                a.btn.btn-floating.modal-trigger(modal,dismissible="false",href="#modal-text-editor",ng-click="editor.setSection('concepts',$index)")
+                                                                    i.material-icons edit
+                                                                a.btn.btn-floating(ng-click="remove('concepts',$index)")
+                                                                    i.material-icons delete
+                            div.col.m6.s12
+                                div.card
+                                    div.card-content
+                                        span.card-title Categorías
+                                        a.right.btn.btn-floating(ng-click="add('categories')")
+                                            i.material-icons add
+                                        div.row.list
+                                            div.col.s12(ng-if="question.body.categories.length > 0")
+                                                table.bordered.centered.highlight
+                                                    thead
+                                                        th Categoría
+                                                        th No. elementos
+                                                        th Acciones
+                                                    tbody
+                                                        tr(ng-repeat="category in question.body.categories")
+                                                            td 
+                                                                input(type="text",name="name",ng-model="category.name",placeholder="Nombre de la categoría")
+                                                            td {{category.objects.length}}
+                                                            td
+                                                                a.btn.btn-floating.modal-trigger(modal,dismissible="false",href="#modal-matching-editor",ng-click="setCategory($index)")
+                                                                    i.material-icons pageview
+                                                                a.btn.btn-floating(ng-click="remove('categories',$index)")
+                                                                    i.material-icons delete
+    div.row(ng-show="!success")
+        div.col.s12.center
+            button.btn(ng-click="save()")
+                span Guardar
+            a.btn(href="/question",ng-click="exit()")
+                span Cancelar

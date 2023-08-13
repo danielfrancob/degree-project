@@ -1,0 +1,27 @@
+angular
+.module('galleryApp',['ngRoute','galleryControllers'])
+.config(function($routeProvider,$locationProvider){
+    $routeProvider
+    .when('/',{
+        controller:'bank',
+        templateUrl:'/gallery/template/bank'
+    })
+    .when('/edit',{
+        controller:'edit',
+        templateUrl:'/gallery/template/edit'
+    })
+    .when('/upload/files',{
+        controller:'files',
+        templateUrl:'/gallery/template/files'
+    })
+    .when('/upload/text',{
+        controller:'text',
+        templateUrl:'/gallery/template/text'
+    })
+    .otherwise({redirectTo:'/'});
+
+    $locationProvider.html5Mode({
+        enabled:true,
+        requireBase:true
+    });
+});

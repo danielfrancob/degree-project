@@ -1,0 +1,41 @@
+extends ../layout
+
+block headers
+    title Registro
+
+block content
+    include ../includes/main-navbar.jade
+    div.container
+        div.row
+            div.col.s12.center
+                p.red-text #{message}
+        div.row
+            div.col.s12
+                h5.teal-text.center-align Bienvenido
+                H6.teal-text.center-align Diligencie el siguiente formulario para registrarse
+        div.row
+            div.col.s12
+                form(method="post",action="/signup")
+                    div.row
+                        div.col.m8.offset-m2.col.s12.input-field
+                            input(type="text",name="username",required)
+                            label(for="username") ID Usuario
+                        div.col.m8.offset-m2.col.s12.input-field
+                            input(type="password",name="password",required)
+                            label(for="password") Clave
+                        div.col.m8.offset-m2.col.s12.input-field
+                            input(type="text",name="name",required)
+                            label(for="name") Nombre
+                        div.col.m8.offset-m2.col.s12.input-field
+                            input(type="text",name="lastname",required)
+                            label(for="lastname") Apellido
+                        div.col.m8.offset-m2.col.s12.input-field
+                            select(name="role",required)
+                                option(value="",disabled,selected) Elija su rol
+                                option(value="teacher") Docente
+                                option(value="student") Estudiante
+                            label(for="role") Rol
+                    div.row
+                        div.col.s12.center
+                            button.btn(type="submit")
+                                span Registrarse

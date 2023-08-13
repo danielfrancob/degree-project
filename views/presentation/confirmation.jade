@@ -1,0 +1,41 @@
+div.modal(id="modal-confirmation")
+    div.modal-content
+        div.row.center
+            div.col.s12
+                pre.red-text {{message}}
+        div.row.center(ng-if="go_back == false")
+            div.col.s12
+                p Haga click en 
+                    strong Finalizar 
+                    | para culminar la evaluación.
+        div.row.center(ng-if="complete != null && complete == false && go_back == true")
+            div.col.s12
+                p.yellow-text
+                    i.material-icons.large warning
+            div.col.s12
+                h5.teal-text Usted tiene preguntas incompletas. 
+                p Haga click en 
+                    strong Volver 
+                    | para regresar y completarlas o click en 
+                    strong Finalizar 
+                    | para culminar la evaluación.
+        div.row.center(ng-if="complete != null && complete == true && go_back == true")
+            div.col.s12
+                p.teal-text
+                    i.material-icons.large check_circle
+            div.col.s12
+                h5.teal-text Usted ha completado la evaluación. 
+                p Haga click en 
+                    strong Finalizar 
+                    | para culminar la evaluación o click en 
+                    strong Volver 
+                    | para regresar y revisar sus respuestas.
+    div.modal-footer
+        button.btn.modal-action.modal-close(ng-show="!finishing && go_back == true",ng-click="clear()")
+            span Volver
+        button.btn(ng-show="!finishing",ng-click="finish()")
+            span Finalizar
+        button.btn.disabled(ng-show="finishing && go_back == true")
+            span Volver
+        button.btn.disabled(ng-show="finishing")
+            span Finalizar

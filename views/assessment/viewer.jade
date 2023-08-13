@@ -1,0 +1,114 @@
+div.container(ng-cloak)
+    include ../includes/goal-viewer.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Aquí se observa la estructura y los elementos de la evaluación. Puede ver:
+                    ol
+                        li El nombre dado a la evaluación.
+                        li El código o clave asignado.
+                        li El estado de la consulta de resultados.
+                        li El estado de la navegación libre.
+                        li Los logros definidos para la evaluación.
+                        li Las preguntas que conforman la evaluación.
+                            | Para cada pregunta puede observar los logros asociados, haciendo click en el botón
+                            i.material-icons.teal-text school
+                            |.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar 
+    div.row
+        div.col.s12
+            pre.red-text {{message}}
+    div.row
+        div.col.s12
+            ul.collapsible.popout(data-collapsible="expansible")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text create 
+                        | Datos básicos
+                    div.collapsible-body
+                        div.row
+                            div.col.s10.offset-s1
+                                table.bordered.centered.highlight.resposive-table
+                                    tr
+                                        td Nombre de la evaluación
+                                        td {{assessment.name}}
+                                    tr
+                                        td Clave
+                                        td {{assessment.password}}
+                                    tr
+                                        td Consulta de resultados
+                                        td {{assessment.view_record ? "Si" : "No"}}
+                                    tr
+                                        td Navegación libre
+                                        td {{assessment.go_back ? "Si" : "No"}}
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text school
+                        | Logros
+                    div.collapsible-body.list-container
+                        div.row
+                            div.col.s12
+                                table.bordered.centered.highlight
+                                    thead
+                                        tr
+                                            th No. Logro
+                                            th Nombre
+                                            th Texto
+                                    tbody
+                                        tr(ng-repeat="goal in assessment.goals")
+                                            td {{$index + 1}}
+                                            td {{goal.name}}
+                                            td {{goal.text}}
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text reorder
+                        | Preguntas
+                    div.collapsible-body.list-container
+                        div.row
+                            div.col.s12.center
+                                h5.teal-text Puntaje: {{score}}
+                        div.row.list-container
+                            div.col.s12.center
+                                div.card-panel
+                                    div.card-content
+                                        table.bordered.centered.highlight
+                                            thead
+                                                tr
+                                                    th Pregunta
+                                                    th Nombre
+                                                    th Tipo
+                                                    th Puntaje
+                                                    th Acciones
+                                            tbody(ng-repeat="question in assessment.questions",ng-init="question_index = $index")
+                                                tr
+                                                    td {{question_index + 1}}
+                                                    td {{question.question.name}}
+                                                    td {{question.question.type | translate}}
+                                                    td 
+                                                        span(ng-if="question.question.type != 'common-base'") {{question.score}}
+                                                        span(ng-if="question.question.type == 'common-base'") -
+                                                    td
+                                                        button.btn.btn-floating.disabled(ng-if="question.question.type == 'common-base'")
+                                                            i.material-icons school
+                                                        button.btn.btn-floating.modal-trigger(modal,dismissible="false",data-target="modal-goal-chooser",ng-click="setQuestion($index)",ng-if="question.question.type != 'common-base'")
+                                                            i.material-icons school
+                                                tr(ng-repeat="subquestion in question.question.questions",ng-init="subquestion_index = $index")
+                                                    td {{question_index + 1}}.{{subquestion_index + 1}}
+                                                    td {{subquestion.name}}
+                                                    td {{subquestion.type | translate}}
+                                                    td {{subquestion.score}}
+                                                    td
+                                                        button.btn.btn-floating.modal-trigger(modal,dismissible="false",data-target="modal-goal-chooser",ng-click="setQuestion($parent.$index,$index)")
+                                                            i.material-icons school
+    div.row
+        div.col.s12.center
+            a.btn(href="/assessment",ng-click="clear()")
+                span Volver

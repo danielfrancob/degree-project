@@ -1,0 +1,52 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    p Al abrir la edición de un elemento, ya sea audio, imagen o video usted puede:
+                    ol
+                        li Cambiar el nombre que le ha asignado dentro de la galería.
+                    p Haga click en:
+                    ol
+                        li
+                            strong.teal-text Guardar 
+                            | para guardar los cambios realizados.
+                        li
+                            strong.teal-text Cancelar 
+                            | para descartar los cambios realizados y volver a la galería.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar  
+    div.row.center(ng-show="success")
+        div.col.s12
+            p.teal-text
+                i.material-icons.large check_circle
+        div.col.s12
+            h5.teal-text Los cambios han sido almacenados correctamente.
+        div.col.s12
+            a.btn(href="/gallery",ng-click="exit()")
+                span Volver
+    div.row(ng-show="!success")
+        div.col.s12
+            pre.red-text {{message}}
+    div.row.center(ng-show="!success")
+        div.col.s12
+            audio(ng-src="{{item.url}}",ng-if="item.type == 'audio'",controls)
+            img.preview(ng-src="{{item.url}}",ng-if="item.type == 'image'")
+            video.video-preview(ng-src="{{item.url}}",ng-if="item.type == 'video'",controls)
+        div.col.s12
+            div.row
+                div.input-field.col.s6.offset-s3
+                    input(type="text",name="name",ng-model="item.name")
+                    label(for="name") Nombre
+    div.row(ng-show="!success")
+        div.col.s12.center
+            button.btn(ng-click="save()")
+                span Guardar
+            a.btn(href="/gallery",ng-click="exit()")
+                span Cancelar

@@ -1,0 +1,22 @@
+extends ../layout
+
+block headers
+    title Evaluaciones
+    base(href="/assessment/")    
+    link(rel="stylesheet",href="/stylesheets/ng-sortable.min.css")
+    script(src="/javascripts/angular/libs/angular.min.js")
+    script(src="/javascripts/angular/libs/angular-route.min.js")
+    script(src="/javascripts/angular/libs/angular-materialize.min.js")
+    script(src="/javascripts/angular/libs/angular-local-storage.min.js")
+    script(src="/javascripts/angular/libs/angular-sanitize.min.js")
+    script(src="/javascripts/angular/libs/ng-sortable.min.js")
+    script(src="/javascripts/angular/services/assessmentService.js")
+    script(src="/javascripts/angular/filters/filters.js")
+    script(src="/javascripts/angular/controllers/assessment/bank.js")
+    script(src="/javascripts/angular/controllers/assessment/form.js")
+    script(src="/javascripts/angular/controllers/assessment/viewer.js")
+    script(src="/javascripts/angular/apps/assessmentApp.js")
+block content
+    include ../includes/teacher-navbar.jade
+    div(ng-app="assessmentApp")
+        div(ng-view="")

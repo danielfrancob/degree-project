@@ -1,0 +1,22 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-matching-viewer")
+    div.modal-content
+        div.row.center
+            div.col.s12
+                h5.teal-text Categoría: {{question.body.categories[category].name}}
+        div.row
+            div.col.m6.s12
+                div.card
+                    div.card-content
+                        span.card-title Elementos
+                        ul.list-container
+                            li.list-item(ng-repeat="concept in question.body.concepts")
+                                div(ng-bind-html="concept.text | to_trusted")
+            div.col.m6.s12
+                div.card
+                    div.card-content
+                        span.card-title Ítems de la categoría
+                        ul.list-container
+                            li.list-item(ng-repeat="item in question.body.categories[category].objects")
+                                div(ng-bind-html="item.text | to_trusted")
+    div.modal-footer
+        button.btn.modal-action.modal-close(ng-click="setCategory(null)") Cerrar

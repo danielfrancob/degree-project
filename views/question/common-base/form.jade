@@ -1,0 +1,187 @@
+div.container(ng-cloak)
+    include ../../includes/editor.jade
+    include ../../includes/editor-chooser.jade
+    include ../../includes/gallery-chooser.jade
+    include ../../includes/question-chooser.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Para crear o editar una pregunta de base común, haga lo siguiente:
+                    ol
+                        li
+                            h6 Asigne un nombre, que identificará la pregunta en el sistema.
+                        li
+                            p Con el botón  
+                                strong.teal-text Editor 
+                                | abra el editor e ingrese el enunciado, pudiendo aplicar varias opciones para dar formato, según lo requiera.
+                                | Con el botón 
+                                strong.teal-text Agregar Imagen 
+                                | puede elegir imágenes de su galería, para acompañar al texto que está construyendo. Para guardar el enunciado use el botón 
+                                strong.teal-text Guardar 
+                                | .Use el botón 
+                                strong.teal-text Cerrar 
+                                | para salir del editor y no guardar los cambios realizados. 
+                            p Use el botón  
+                                strong.teal-text Borrar 
+                                | para eliminar el enunciado.
+                        li
+                            p Asigne un recurso multimedia de su galería, ya sea audio, imagen, texto o video. Recuerde que debe cargar previamente estos elementos. 
+                            p Con el botón 
+                                strong.teal-text Agregar 
+                                | abra un selector de elementos multimedia, donde puede agregar el elemento que desee, pulsando el botón 
+                                strong.teal-text Agregar 
+                                | presente en cada elemento.
+                            p Con el botón 
+                                strong.teal-text Borrar 
+                                | remueva el elemento que haya asignado previamente.
+                            p
+                                strong NOTA: 
+                                | Este recurso es obligatorio en las preguntas de base común.
+                        li
+                            p Asigne las preguntas que conformarán la pregunta de base común, que pueden ser de tipo: correlación, opción múltiple, ordenamiento o verdadero - falso. Recuerde que debe crear las preguntas previamente.
+                            p Con el botón 
+                                strong.teal-text Agregar 
+                                | abra un selector de preguntas, donde puede agregar las preguntas que considere, al oprimir el botón 
+                                i.material-icons.teal-text add
+                            p Para remover una pregunta ya agregada, use el botón
+                                i.material-icons.teal-text delete
+                            p Puede cambiar el orden de las preguntas agregadas, arrastrándolas y soltándolas en la posición que desee.
+                        li 
+                            h6 Al finalizar, use el botón 
+                                strong.teal-text Guardar 
+                                | para guardar la pregunta, o 
+                                strong.teal-text Cancelar 
+                                | para salir y no guardar las acciones realizadas.
+                    h6 Cada caja o sección, en la parte superior derecha muestra alguno de los siguientes íconos:
+                    ol
+                        li 
+                            i.material-icons.red-text error 
+                            | que indica que no ha ingresado la información, o falta algún campo por llenar.
+                        li 
+                            i.material-icons.teal-text check_circle
+                            | que indica que ha completado la información solicitada.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar
+    div.row.center(ng-show="success")
+        div.col.s12
+            p.teal-text
+                i.material-icons.large check_circle
+        div.col.s12
+            h5.teal-text La pregunta ha sido almacenada correctamente.
+        div.col.s12
+            a.btn(href="/question",ng-click="exit()")
+                span Volver
+    div.row(ng-show="!success")
+        div.col.s12
+            pre.red-text {{message}}
+    div.row(ng-show="!success")
+        div.col.s12
+            h5.teal-text.center-align Pregunta de base común
+        div.col.s12
+            ul.collapsible.popout(data-collapsible="expandible")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text create 
+                        | Datos básicos
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="question.name") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="!question.name") error
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center
+                                p Escriba un nombre para identificar la pregunta en el sistema.
+                            div.input-field.col.s10.offset-s1
+                                input(type="text",name="name",ng-model="question.name")
+                                label(for="name") Nombre
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text info
+                        | Enunciado
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="question.statement") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="!question.statement") error
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center
+                                p Haga click en Editor para agregar o modificar su enunciado. Borrar, para eliminarlo.
+                            div.col.s12
+                                div.editor-text(ng-bind-html="question.statement | to_trusted")
+                            div.col.s12.center
+                                button.modal-trigger.btn(modal,dismissible="false",data-target="modal-text-editor",ng-click="editor.setSection('statement')")
+                                    span Editor
+                                button.btn(ng-click="remove('statement')")
+                                    span Borrar
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text collections
+                        | Recurso multimedia
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="!question.attachment") error
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="question.attachment") check_circle
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center
+                                p Haga click en Agregar para insertar o modificar un recurso multimedia. Borrar, para eliminalo.
+                            div.col.s12.center(ng-if="question.attachment.type == 'audio'")
+                                audio.audio-preview(ng-src="{{question.attachment.url}}",controls)
+                            div.col.s12.center(ng-if="question.attachment.type == 'image'")
+                                img.img-preview(ng-src="{{question.attachment.url}}")
+                            div.col.s12.center(ng-if="question.attachment.type == 'video'")
+                                video.video-preview(ng-src="{{question.attachment.url}}",controls)
+                            div.col.s12(ng-if="question.attachment.type == 'text'")
+                                div(ng-bind-html="question.attachment.text | to_trusted")                                
+                            div.col.s12.center
+                                button.modal-trigger.btn(modal,dismissible="false",data-target="modal-gallery-chooser")
+                                    span Agregar
+                                button.btn(ng-click="remove('attachment')")
+                                    span Borrar
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text reorder
+                        | Preguntas
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="question.questions.length > 0") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="question.questions.length == 0") error
+                    div.collapsible-body.list-container
+                        div.row
+                            div.col.s12.center
+                                p Haga click en Agregar para insertar preguntas. Puede cambiar el orden de las preguntas arrastrándolas y soltándolas.
+                            div.col.s12.center
+                                a.btn.modal-trigger(modal,dismissible="false",href="#modal-question-chooser") Agregar                           
+                            div.col.s12(ng-show="question.questions.length > 0")
+                                div.card
+                                    div.card-content
+                                        div.row.list-container
+                                            div.col.s12.center
+                                                div.col.s2
+                                                    strong No.
+                                                div.col.s4
+                                                    strong Nombre
+                                                div.col.s3
+                                                    strong Tipo
+                                                div.col.s3
+                                                    strong Acciones                                            
+                                            div.col.s12
+                                                ul(data-as-sortable="questionListener",ng-model="question.questions")
+                                                    li.as-sortable-item(data-as-sortable-item,ng-repeat="question in question.questions")
+                                                        div.as-sortable-item-handle.center.list-item(data-as-sortable-item-handle)
+                                                            div.row.valign-wrapper
+                                                                div.col.s2.valign
+                                                                    span {{$index + 1}}
+                                                                div.col.s4.valign
+                                                                    span {{question.name}}
+                                                                div.col.s3.valign
+                                                                    span {{question.type | translate}}
+                                                                div.col.s3.valign
+                                                                    div
+                                                                        button.btn.btn-floating(tooltipped,data-position="bottom",data-tooltip="Borrar",ng-click="remove('questions',$index)")
+                                                                            i.material-icons delete
+    div.row(ng-show="!success")
+        div.col.s12.center
+            button.btn(ng-click="save()")
+                span Guardar
+            a.btn(href="/question",ng-click="exit()")
+                span Cancelar

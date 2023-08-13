@@ -1,0 +1,60 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Aquí se muestran las evaluaciones que ha creado. Para cada una puede:
+                    ol
+                        li
+                            h6 Consultar los resultados, haciendo click en el botón
+                                i.material-icons.teal-text pageview
+                                |.
+                        li
+                            h6 Cambiar la visibilidad de los resultados a los estudiantes que hayan presentado la evaluación, así:
+                                p Si los resultados están habilitados, aparecerá el botón 
+                                        i.material-icons.teal-text visibility
+                                        |. Al presionarlo, el botón cambiará a 
+                                        i.material-icons.grey-text visibility_off
+                                        |, indicando que se ha deshabilitado la consulta.
+                                p Si los resultados están deshabilitados, aparecerá el botón 
+                                        i.material-icons.grey-text visibility_off
+                                        |. Al presionarlo, el botón cambiará a 
+                                        i.material-icons.teal-text visibility
+                                        |, indicando que se ha habilitado la consulta.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar  
+    div.row.center
+        div.col.s12
+            pre.red-text {{message}}
+    div.row.center(ng-if="list.length == 0")
+        div.col.s12
+            h5.teal-text No tiene evaluaciones en el sistema.
+    div.row.center(ng-if="list.length > 0")
+        div.col.s12
+            h5.teal-text Evaluaciones en el sistema
+    div.row(ng-if="list.length > 0")
+        div.col.s12
+            table.bordered.centered.highlight
+                thead
+                    tr
+                        th Nombre
+                        th Acciones
+                tbody
+                    tr(ng-repeat="assessment in list")
+                        td {{assessment.name}}
+                        td
+                            a.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Ver",href="assessment",ng-click="setAssessment(assessment._id)")
+                                i.material-icons pageview
+                            button.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Deshabilitar consulta",ng-click="changeVisibility($index,assessment._id,false)",ng-if="assessment.view_record")
+                                i.material-icons visibility
+                            button.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Habilitar consulta",ng-click="changeVisibility($index,assessment._id,true)",ng-if="!assessment.view_record")
+                                i.material-icons.grey visibility_off
+    div.row.center
+        div.col.s12
+            a.btn(href="/home") Volver

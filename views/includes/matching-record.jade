@@ -1,0 +1,24 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-matching-viewer")
+    div.modal-content
+        div.row.center
+            div.col.s12
+                h5.teal-text Categoría: {{question.body.categories[category].name}}
+        div.row
+            div.col.m6.s12
+                div.card
+                    div.card-content
+                        span.card-title Respuesta esperada
+                        ul.list-container
+                            li(ng-repeat="item in question.body.categories[category].objects")
+                                div.list-item(ng-bind-html="item.text | to_trusted")
+            div.col.m6.s12
+                div.card
+                    div.card-content
+                        span.card-title Respuesta del estudiante
+                        p.center-align(ng-if="!question.answer[category].objects || question.answer[category].objects.length == 0") El estudiante no proporcionó respuesta.
+                        ul.list-container(ng-if="question.answer[category].objects.length > 0")
+                            li(ng-repeat="item in question.answer[category].objects")
+                                div.list-item.correct(ng-if="item.correct",ng-bind-html="item.text | to_trusted")
+                                div.list-item.wrong(ng-if="!item.correct",ng-bind-html="item.text | to_trusted")
+    div.modal-footer
+        button.btn.modal-action.modal-close(ng-click="setCategory(null)") Cerrar

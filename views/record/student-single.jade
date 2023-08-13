@@ -1,0 +1,204 @@
+div.container(ng-cloak)
+    include ../question/common-base/modal.jade
+    include ../question/matching/modal.jade
+    include ../includes/matching-record.jade
+    include ../question/multiplechoice/modal.jade
+    include ../question/sorting/modal.jade
+    include ../question/true-false/modal.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    p Aquí se muestra el resultado de un estudiante específico. Podrá encontrar:
+                    ol
+                        li
+                            h6 Una visión general de la evaluación, donde encontrará: la nota máxima, la nota mínima para pasar (60%) y la nota obtenida por el estudiante. Asimismo, esta información es graficada.
+                        li
+                            h6 Un análisis por logros, donde encontrará el desempeño del estudiantes, expresado en términos porcentuales, para cada uno de los logros. Asimismo, se grafíca dicha información.
+                        li
+                            h6 El listado de preguntas de la evaluación, donde encontrará: la calificación máxima y la calificación obtenida por el estudiante. Además, puede consultar en detalle cada una de las preguntas, mediante el botón 
+                                i.material-icons.teal-text pageview
+                                |.
+                    p Al consultar cada una de las preguntas, encontrará:
+                    ol
+                        li
+                            h6 Información general como: el tipo de pregunta, la calificación máxima y la calificación obtenida.
+                        li
+                            h6 Los logros asociados a la pregunta.
+                        li
+                            h6 El enunciado propuesto.
+                        li
+                            h6 El recurso multimedia asociado (Si fue definido).
+                        li
+                            h6 El contraste entre la respuesta esperada y la proporcionada por el estudiante, resaltando las coincidencias en 
+                                strong.teal-text verde 
+                                | y los errores en 
+                                strong.red-text rojo
+                                |.
+                            h6 
+                                strong NOTA:
+                                | La información mostrada depende del tipo de pregunta. Así es el contraste para cada tipo:
+                                ol
+                                    li
+                                        h6 Las preguntas de 
+                                            strong.teal-text base común 
+                                            | no generan este contraste.
+                                    li
+                                        h6 Las preguntas de 
+                                            strong.teal-text correlación 
+                                            | muestran el listado de elementos y categorías. Puede consultar la respuesta de cada una, mediante el botón 
+                                            i.material-icons.teal-text pageview
+                                            |.
+                                        h6 
+                                            strong Nota: 
+                                            | Si el estudiante indica respuestas adicionales a la esperada, se aplica una penalización acorde a la cantidad de elementos que no conforman la respuesta. 
+                                    li
+                                        h6 Las preguntas de 
+                                            strong.teal-text opción múltiple 
+                                            | muestran el comparativo entre la(s) respuestas esperadas y las indicadas por el estudiante. 
+                                        h6 
+                                            strong Nota: 
+                                            | Si el estudiante indica respuestas adicionales a la esperada, se aplica una penalización acorde a la cantidad de elementos que no conforman la respuesta.
+                                    li
+                                        h6 Las preguntas de 
+                                            strong.teal-text ordenamiento 
+                                            | muestran el comparativo entre el listado de elementos ordenados propuesto y el orden indicado por el estudiante.
+                                    li
+                                        h6 Las preguntas de 
+                                            strong.teal-text verdadero - falso 
+                                            | muestran el comparativo entre los hechos verdaderos propuestos y los indicados por el estudiante. Asimismo, se muestra el comparativo entre los hechos falsos propuestos y los indicados por el estudiante.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar  
+    div.row.center
+        div.col.s12
+            pre.red-text {{message}}
+    div.row
+        div.col.s12
+            h5.teal-text.center-align {{record.student}}
+            h6.teal-text.center-align {{record.name}}
+    div.row
+        div.col.s12
+            ul.collapsible.popout(data-collapsible="expansible")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text info
+                        | Resultado general
+                    div.collapsible-body
+                        div.card
+                            div.card-content
+                                div.row
+                                    div.col.m7.s12
+                                        div.card-panel
+                                            div.card-content
+                                                canvas.chart.chart-bar(chart-data="score_chart.data",chart-labels="score_chart.labels",chart-series="score_chart.series",chart-options="score_chart.options")
+                                    div.col.m5.s12                                        
+                                        div.card-panel
+                                            div.card-content
+                                                table.bordered.centered.highlight.responsive-table
+                                                    thead
+                                                        th Ítem
+                                                        th Valor
+                                                    tbody
+                                                        tr
+                                                            td Nota máxima
+                                                            td 50
+                                                        tr
+                                                            td Nota para aprobar
+                                                            td 30
+                                                        tr
+                                                            td Nota obtenida
+                                                            td {{record.score}}
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text school
+                        | Resultados por logro
+                    div.collapsible-body
+                        div.card
+                            div.card-content
+                                div.row
+                                    div.col.s12
+                                        div.card-panel
+                                            div.card-content
+                                                table.bordered.centered.highlight.responsive-table
+                                                    thead
+                                                        th No.
+                                                        th Logro
+                                                        th Descripción
+                                                        th Preguntas asociadas
+
+                                                    tbody
+                                                        tr(ng-repeat="item in record.goals")
+                                                            td {{$index + 1}}
+                                                            td {{item.goal.name}}
+                                                            td {{item.goal.text}}
+                                                            td
+                                                                span(ng-repeat="question in item.questions") {{question}}{{$last ? "" : ", "}}
+                                    div.col.m7.s12
+                                        div.card-panel
+                                            div.card-content
+                                                canvas.chart.chart-polar-area(chart-data="goal_chart.data",chart-labels="goal_chart.labels",chart-options="goal_chart.options")
+                                    div.col.m5.s12
+                                        div.card-panel
+                                            div.card-content
+                                                table.bordered.centered.highlight.responsive-table
+                                                    thead
+                                                        th No.
+                                                        th Logro
+                                                        th Desempeño
+                                                    tbody
+                                                        tr(ng-repeat="item in record.goals")
+                                                            td {{$index + 1}}
+                                                            td {{item.goal.name}}
+                                                            td {{item.value}} %
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text reorder
+                        | Resultados por pregunta
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center
+                                p Haga click en
+                                    i.material-icons.teal-text.valign-wrapper pageview
+                                    | para consultar en detalle el resultado de cada pregunta.
+                            div.col.s12
+                                div.card-panel
+                                    div.card-content
+                                        table.bordered.centered.highlight
+                                            thead
+                                                tr
+                                                    th Pregunta
+                                                    th Tipo
+                                                    th Nota máx.
+                                                    th Nota est.
+                                                    th Acciones
+                                            tbody(ng-repeat="question in record.questions",ng-init="question_index = $index")
+                                                tr
+                                                    td {{question_index + 1}}
+                                                    td {{question.type | translate}}
+                                                    td 
+                                                        span(ng-if="question.type != 'common-base'") {{question.max_score}}
+                                                        span(ng-if="question.type == 'common-base'") -
+                                                    td 
+                                                        span(ng-if="question.type != 'common-base'") {{question.score}}
+                                                        span(ng-if="question.type == 'common-base'") -
+                                                    td
+                                                        button.btn.btn-floating.modal-trigger(modal,dismissible="false",data-target="modal-{{question.type}}",ng-click="setQuestion(question)")
+                                                            i.material-icons pageview
+                                                tr(ng-repeat="subquestion in question.questions",ng-init="subquestion_index = $index")
+                                                    td {{question_index + 1}}.{{subquestion_index + 1}}
+                                                    td {{subquestion.type | translate}}
+                                                    td {{subquestion.max_score}}
+                                                    td {{subquestion.score}}
+                                                    td
+                                                        button.btn.btn-floating.modal-trigger(modal,dismissible="false",data-target="modal-{{subquestion.type}}",ng-click="setQuestion(subquestion)")
+                                                            i.material-icons pageview
+    div.row.center
+        div.col.s12
+            a.btn(href="/record",ng-click="clear()")
+                span Volver

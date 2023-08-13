@@ -1,0 +1,84 @@
+div.container(ng-cloak)
+    include confirmation.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Este es el resumen de la evaluación, donde se encuentra el listado de las preguntas que componen la evaluación, así como el estado de la pregunta, que puede ser:
+                    ol
+                        li 
+                            h6 
+                                strong Incompleta 
+                                | si no ha proporcionado su respuesta o tiene elementos por trabajar, según el tipo de pregunta.
+                        li 
+                            h6 
+                                strong Completa 
+                                | si ha contestado la pregunta.
+                    p Recuerde que existen dos formas de presentación de evaluaciones:
+                    ol
+                        li
+                            h6 El modo de 
+                                strong.teal-text navegación restringida 
+                                |, donde 
+                                strong NO 
+                                | puede volver a consultar las pregunta ni modificar sus respuestas.
+                            h6
+                                strong Nota: 
+                                | Si está en este modo, haga click en el botón 
+                                strong.teal-text Finalizar 
+                                | para terminar la evaluacion.
+                        li 
+                            h6 El modo de 
+                                strong.teal-text navegación libre 
+                                |, donde puede volver a consultar las pregunta y modificar sus respuesta. Asimismo, puede visitar las preguntas en el orde que desee, haciendo click en el botón 
+                                strong.teal-text Ir 
+                                | ubicado al lado derecho de cada pregunta.
+                            h6 Si está seguro de finalizar la evaluación, haga click en el botón 
+                                strong.teal-text Finalizar 
+                                |. 
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar
+    div.row
+        div.col.s12
+            div.card
+                div.card-content
+                    div.row
+                        div.col.s12
+                            h6.teal-text.right(ng-if="go_back") Navegación libre
+                            h6.teal-text.right(ng-if="!go_back") Navegación restringida  
+                    div.row
+                        div.col.s12
+                            h5.teal-text.center-align Resumen de la evaluación  
+                    div.row
+                        div.col.s10.offset-s1
+                            table.bordered.centered.highlight
+                                thead
+                                    tr
+                                        th Pregunta
+                                        th Estado
+                                        th(ng-if="go_back") Acciones
+                                tbody(ng-repeat="item in answers")
+                                    tr
+                                        td {{item.question + 1}}
+                                        td
+                                            span(ng-if="item.status == null") -
+                                            span(ng-if="item.status != null") {{item.status | translate}}
+                                        td(ng-if="go_back")
+                                            button.btn(ng-click="goTo(item.question)")
+                                                span Ir
+                                    tr(ng-if="item.answers !== null",ng-repeat="sub in item.answers")
+                                        td {{(sub.question + 1) + "." + (sub.subquestion + 1)}} 
+                                        td {{sub.status | translate}}
+                                        td(ng-if="go_back")
+                                            button.btn(ng-click="goTo(sub.question,sub.subquestion)")
+                                                span Ir
+                    div.row.center
+                        div.col.s12
+                            button.btn.modal-trigger(modal,dismissible="false",data-target="modal-confirmation",ng-click="verify()")
+                                span Finalizar

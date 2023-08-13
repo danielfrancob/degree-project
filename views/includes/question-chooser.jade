@@ -1,0 +1,26 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-question-chooser")
+    div.modal-content
+        div.row.center(ng-show="bank.length == 0")
+            div.col.s12
+                span No tiene preguntas en el banco.
+        div.row.center(ng-show="bank.length > 0")
+            div.col.s12.center
+                p Para agregar preguntas a la evaluación, haga click en 
+                    i.material-icons.teal-text.valign-wrapper add
+            div.col.s12
+                div.card-panel.center
+                    table.bordered.centered.highlight
+                        thead
+                            tr
+                                th Nombre
+                                th Tipo
+                                th Acciones
+                        tbody
+                            tr(ng-repeat="question in bank")
+                                td {{question.name}}
+                                td {{question.type | translate}}
+                                td 
+                                    button.btn.btn-floating(ng-click="add('questions',question)",ng-if="question.type !== 'common-base' || assessment")
+                                        i.material-icons add
+    div.modal-footer
+        a.btn.modal-action.modal-close Cerrar

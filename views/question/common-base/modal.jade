@@ -1,0 +1,41 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-common-base")
+    div.modal-content
+        div.row
+            div.col.s12
+                ul.collapsible.popout(data-collapsible="expansible")
+                    li
+                        div.collapsible-header.active
+                            i.material-icons.teal-text info
+                            | Información general
+                        div.collapsible-body
+                            div.row
+                                div.col.s10.offset-s1
+                                    table.bordered.centered.highlight.resposive-table
+                                        tr
+                                            td Tipo de pregunta
+                                            td {{question.type | translate}}
+                    li
+                        div.collapsible-header.active
+                            i.material-icons.teal-text edit
+                            | Enunciado
+                        div.collapsible-body
+                            div.row
+                                div.col.s10.offset-s1
+                                    div.editor-text(ng-bind-html="question.statement | to_trusted")
+                    li
+                        div.collapsible-header.active
+                            i.material-icons.teal-text collections
+                            | Recurso multimedia
+                        div.collapsible-body
+                            div.row
+                                div.col.s12.center(ng-if="question.attachment.type == 'audio'")
+                                    audio.audio-preview(ng-src="{{question.attachment.url}}",controls)
+                                div.col.s12.center(ng-if="question.attachment.type == 'image'")
+                                    img.img-preview(ng-src="{{question.attachment.url}}")
+                                div.col.s12.center(ng-if="question.attachment.type == 'video'")
+                                    video.video-preview(ng-src="{{question.attachment.url}}",controls)
+                                div.col.s12(ng-if="question.attachment.type == 'text'")
+                                    div(ng-bind-html="question.attachment.text | to_trusted")
+
+    div.modal-footer
+        a.btn.modal-action.modal-close(ng-click="setQuestion(null)") Cerrar

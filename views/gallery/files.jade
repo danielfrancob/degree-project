@@ -1,0 +1,87 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Haga click en 
+                        strong.teal-text Agregar 
+                        | para abrir el selector de archivos. Recuerde que puede elegir múltiples archivos entre audios, imágenes y/o videos.
+                    h6 Al agregar archivos puede: 
+                    ol
+                        li 
+                            h6 Asignar un nombre al elemento, que lo identificará en el sistema.
+                        li 
+                            h6 Remover el que desee, usando el botón
+                                i.material-icons.teal-text delete
+                                | que aparece en la parte derecha de cada elemento de la lista.
+                    h6 Además, puede:
+                    ol
+                        li
+                            h6 Cargar los archivos al sistema, con el botón 
+                                strong.teal-text Subir.
+                                | Cada elemento mostrará una barra de progreso. Al finalizar, se mostrará
+                                i.material-icons.teal-text done 
+                                | si la carga fue exitosa o
+                                i.material-icons.teal-text error
+                                | si no pudo cargarse el elemento.
+                        li
+                            h6 Usando el botón 
+                                strong.teal-text Remover 
+                                | puede quitar de la lista los elementos subidos
+                                | o quitar todos los elementos de la lista, sin importar que hayan sido subidos, tuvieran error o estén por subir.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar   
+    div.row.center
+        div.col.s12
+            p.red-text {{message}}
+    div.row.center(ng-if="files.length == 0")
+        div.col.s12
+            h5.teal-text No ha elegido elementos para subir.            
+    div.row.center
+        div.col.s12
+            button.btn(type="button",ngf-select="true",ngf-multiple="true",ngf-keep="true",accept="audio/*,image/*,video/*",ngf-change="change()",ng-model="files")
+                span Agregar
+            button.btn(type="button",ng-click="upload()",ng-show="files.length > 0")
+                span Subir
+            a.btn.dropdown-button(dropdown,href="#",data-activates="remove-dropdown",ng-show="files.length > 0") Remover
+            ul.dropdown-content(id="remove-dropdown")
+                li
+                    a(ng-click="removeComplete()") Elementos completados
+                li
+                    a(ng-click="removeAll()") Todos
+    div.row(ng-show="files.length > 0")
+        div.col.s12
+            table.bordered.centered.highlight
+                thead
+                    tr
+                        th Archivo
+                        th Nombre
+                        th Progreso
+                        th Resultado
+                        th Acciones
+                tbody
+                    tr(ng-repeat="file in files")
+                        td {{file.name}}
+                        td
+                            input.center(type="text",ng-model="file.customName")
+                        td 
+                            div.progress
+                                div.determinate(style="width:{{file.progress}}%")
+                        td
+                            span.btn-floating.tooltipped(tooltipped,data-tooltip="El elemento ha sido cargado",ng-show="file.result === 'ok'")
+                                i.material-icons done
+                            span.btn-floating.tooltipped(tooltipped,data-tooltip="Ocurrió un error al cargar el elemento",ng-show="file.result === 'error'")
+                                i.material-icons error
+                        td
+                            button.btn-floating.toolipped(tooltipped,data-tooltip="Borrar",type="button",ng-click="remove($index)",ng-disabled="file.result === 'ok'")
+                                i.material-icons delete
+    div.row
+        div.col.s12.center
+            a.btn(href="/gallery")
+                span Volver

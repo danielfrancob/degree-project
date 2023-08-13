@@ -1,0 +1,83 @@
+extends ../layout
+
+block headers
+    title Inicio
+    script(src="/javascripts/angular/libs/angular.min.js")
+    script(src="/javascripts/angular/libs/angular-local-storage.min.js")
+    script(src="/javascripts/angular/controllers/user/user.js")
+
+block content
+    div(ng-app="userApp",ng-controller="user")
+        include ../includes/student-navbar.jade
+        include ../includes/user-password.jade
+        div.fixed-action-btn
+            button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+                i.material-icons help
+        div.modal(id="modal-help")
+            div.modal-content
+                div.row
+                    div.col.s12
+                        h5.teal-text.center-align Ayuda
+                    div.col.s12
+                        h6 Esta es la página principal para estudiantes. Aquí puede encontrar:
+                        ol
+                            li Acceso al módulo para presentar evaluaciones, 
+                                strong.teal-text Iniciar evaluación
+                                |.
+                            li Acceso al módulo de 
+                                strong.teal-text Resultados
+                                |.
+                        h6 Además, puede cambiar su clave.
+            div.modal-footer
+                button.btn.modal-action.modal-close 
+                    span Cerrar 
+        div.container
+            div.row
+                div.col.s12
+                    h3.teal-text.center-align Bienvenido #{user.name}
+            div.row
+                div.col.m6.s12
+                    div.card
+                        div.card-content
+                            div.row
+                                div.col.s12.valign-wrapper
+                                    i.material-icons.large.teal-text grade
+                                    span.card-title.teal-text.valign Accesos directos
+                                div.col.m6.offset-m3.col.s12
+                                    a(href="/presentation").valign-wrapper
+                                        i.material-icons.medium.teal-text assignment
+                                        span.teal-text.valign Iniciar evaluación
+                                div.col.m6.offset-m3.col.s12
+                                    a(href="/record").valign-wrapper
+                                        i.material-icons.medium.teal-text assessment
+                                        span.teal-text.valign Resultados
+                                div.col.m6.offset-m3.col.s12
+                                    a(href="/guide").valign-wrapper
+                                        i.material-icons.medium.teal-text picture_as_pdf
+                                        span.teal-text.valign Manual de usuario
+                                div.col.m6.offset-m3.col.s12
+                                    a(href="/logout",ng-click="clear()").valign-wrapper
+                                        i.material-icons.medium.teal-text exit_to_app
+                                        span.teal-text.valign Salir
+                div.col.m6.s12
+                    div.card
+                        div.card-content
+                            div.row
+                                div.col.s12.valign-wrapper
+                                    i.material-icons.large.teal-text face
+                                    span.card-title.teal-text.valign Información de usuario
+                                div.col.s12
+                                    table.bordered.centered.highlight
+                                        tbody
+                                            tr
+                                                td Nombre
+                                                td #{user.name}
+                                            tr
+                                                td Apellido
+                                                td #{user.lastname}
+                                            tr
+                                                td Rol
+                                                td Estudiante
+                                div.col.s12.center
+                                    a.modal-trigger(modal,href="#modal-password")
+                                        span.teal-text Cambiar clave

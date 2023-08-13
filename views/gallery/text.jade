@@ -1,0 +1,91 @@
+div.container(ng-cloak)
+    include ../includes/editor-chooser.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Para crear o editar un texto en la galería, haga lo siguiente:
+                    ol
+                        li
+                            h6 Asigne un nombre al texto, que lo identificará en el sistema.
+                        li
+                            p Introduzca el texto en el editor, que posee varias opciones para dar formato, según lo requiera.
+                            p Con el botón 
+                                strong.teal-text Agregar Imagen 
+                                | puede elegir imágenes de su galería, para acompañar al texto que está construyendo. 
+                            p El botón 
+                                strong.teal-text Vaciar Editor 
+                                | le permite borrar todo el texto dentro del editor.
+                        li 
+                            h6 Al finalizar, use el botón 
+                                strong.teal-text Guardar 
+                                | para guardar el texto en su galería, o 
+                                strong.teal-text Cancelar 
+                                | para salir y no guardar las acciones realizadas.
+                    h6 Cada caja o sección, en la parte superior derecha muestra alguno de los siguientes íconos:
+                    ol
+                        li 
+                            i.material-icons.red-text error 
+                            | que indica que no ha ingresado la información, o falta algún campo por llenar.
+                        li 
+                            i.material-icons.teal-text check_circle
+                            | que indica que ha completado la información solicitada.
+
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar  
+    div.row.center(ng-show="success")
+        div.col.s12
+            p.teal-text
+                i.material-icons.large check_circle
+        div.col.s12
+            h5.teal-text El texto ha sido almacenado correctamente.
+        div.col.s12
+            a.btn(href="/gallery",ng-click="exit()")
+                span Volver
+    div.row(ng-show="!success")
+        div.col.s12
+            pre.red-text {{message}}
+    div.row(ng-show="!success")
+        div.col.s12
+            ul.collapsible.popout(data-collapsible="expansible")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text create
+                        | Nombre
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="editor.name") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="!editor.name") error
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center
+                                p Escriba un nombre para identificar el texto en el sistema.
+                            div.input-field.col.s10.offset-s1
+                                input(type="text",name="name",ng-model="editor.name")
+                                label(for="name") Nombre
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text reorder
+                        | Texto
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="editor.text") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="!editor.text") error
+                    div.collapsible-body
+                        div.row
+                            div.col.s12
+                                div(id="editor")
+                                    ng-wig.nw-editor--fixed(ng-model="editor.text")
+                            div.col.s12.center
+                                button.modal-trigger.btn(modal,data-target="modal-editor-chooser")
+                                    span Agregar imagen
+                                button.btn(ng-click="editor.clear()")
+                                    span Vaciar editor
+    div.row(ng-show="!success")
+        div.col.s12.center
+            button.btn(ng-click="save()")
+                span Guardar
+            a.btn(href="/gallery",ng-click="exit()")
+                span Cancelar

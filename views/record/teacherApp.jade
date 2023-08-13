@@ -1,0 +1,22 @@
+extends ../layout
+
+block headers
+    title Calificaciones
+    base(href="/record/")
+    script(src="/javascripts/chart.min.js")
+    script(src="/javascripts/angular/libs/angular.min.js")
+    script(src="/javascripts/angular/libs/angular-route.min.js")
+    script(src="/javascripts/angular/libs/angular-materialize.min.js")
+    script(src="/javascripts/angular/libs/angular-local-storage.min.js")
+    script(src="/javascripts/angular/libs/angular-sanitize.min.js")
+    script(src="/javascripts/angular/libs/angular-chart.min.js")
+    script(src="/javascripts/angular/services/recordService.js")
+    script(src="/javascripts/angular/controllers/record/teacher-list.js")
+    script(src="/javascripts/angular/controllers/record/assessment.js")
+    script(src="/javascripts/angular/controllers/record/student.js")
+    script(src="/javascripts/angular/filters/filters.js")
+    script(src="/javascripts/angular/apps/recordTeacherApp.js")
+block content
+    include ../includes/teacher-navbar.jade
+    div(ng-app="recordApp")
+        div(ng-view="")

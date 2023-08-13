@@ -1,0 +1,284 @@
+extends ../layout.jade
+
+block headers
+    title Encuesta
+
+block content
+    include ../includes/teacher-navbar.jade
+    div.container
+        div.row
+            div.col.s12
+                pre.red-text #{error}
+        div.row
+            div.col.s12
+                h5.teal-text.center-align Encuesta para estudio de usabilidad
+            div.col.s12
+                h6.center-align Responda a las siguientes preguntas con 
+                    strong Si 
+                    | o 
+                    strong No
+                    |, teniendo en cuenta su experiencia en el uso del aplicativo durante las pruebas realizadas.
+        div.row
+            div.col.s12
+                form(method="post",action="/survey/teacher")
+                    div.row
+                        div.col.s12
+                            table.highlight.centered.bordered
+                                tbody
+                                    tr
+                                        th Sobre la galería
+                                        th
+                                    tr
+                                        td 
+                                            span ¿Tuvo inconvenientes para gestionar elementos multimedia?
+                                        td
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Es comprensible el mecanismo para gestionar elementos multimedia?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        th Sobre las preguntas
+                                        th
+                                    tr
+                                        td
+                                            span ¿La información solicitada para las preguntas define adecuadamente su intención?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿El editor de texto incorporado es adecuado para dar formato a los diferentes componentes las preguntas?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para incorporar elementos multimedia en las preguntas?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para gestionar preguntas de base común?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para gestionar preguntas de correlación?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para gestionar preguntas de opción múltiple?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para gestionar preguntas de ordenamiento?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para gestionar preguntas de verdadero o falso?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                            table.highlight.centered.bordered
+                                tbody
+                                    tr
+                                        th Sobre las evaluaciones
+                                        th
+                                    tr
+                                        td
+                                            span ¿La información solicitada define adecuadamente el instrumento de evaluación?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Es adecuada la protección por código, como mecanismo para restringir el acceso a cualquier estudiante?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Es adecuada la restricción para la consulta de resultados, como mecanismo para evitar copia o fraude?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Es adecuada la restricción para la navegación de la evaluación, como mecanismo para evitar copia o fraude?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Es apropiada la definición de logros y su asociación a las preguntas que componen la evaluación?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Es apropiada la reutilización de preguntas, conformando así un banco o colección de éstas?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para gestionar logros dentro de las evaluaciones?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Tuvo inconvenientes para gestionar preguntas dentro de las evaluaciones?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        th Sobre la calificación e informes 
+                                        th
+                                    tr
+                                        td
+                                            span ¿Es adecuado el modelo de calificación (valoración) por número de coincidencias?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Es comprensible el análisis grupal e individual de cada evaluación?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿El análisis grupal e individual presentado es significativo para su labor cotidiana?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Es adecuado el análisis por logros presentado, de acuerdo a enfoques como la formación por competencias?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Es adecuada la comparación entre la respuesta del estudiante y la esperada, como mecanismo de retroalimentación?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        th Sobre la experiencia
+                                        th
+                                    tr
+                                        td
+                                            span Antes de esta experiencia, ¿Había evaluado a sus estudiantes usando algún aplicativo (software)?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Usaría este aplicativo, en futuras ocasiones, para llevar a cabo procesos de evaluación?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                                    tr
+                                        td
+                                            span ¿Usaría este aplicativo para evaluar a sus estudiantes fuera del aula de clase (por ejemplo, una evaluación desde casa, un día no escolar?
+                                        td 
+                                            div.input-field
+                                                select(name="answers",required)
+                                                    option(value="",disabled,selected)
+                                                    option(value="Si") Si
+                                                    option(value="No") No
+                    div.row.center
+                        div.col.m4.offset-m2.s6
+                            button.btn(type="submit")
+                                span Guardar
+                        div.col.m4.s6
+                            a.btn(href="/home") Volver

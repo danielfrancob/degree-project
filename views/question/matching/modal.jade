@@ -1,0 +1,97 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-matching")
+    div.modal-content
+        div.row
+            div.col.s12
+           div.col.s12
+                ul.collapsible.popout(data-collapsible="expansible")
+                    li
+                        div.collapsible-header.active
+                            i.material-icons.teal-text info
+                            | Información general
+                        div.collapsible-body
+                            div.row
+                                div.col.s10.offset-s1
+                                    table.bordered.centered.highlight.resposive-table
+                                        tr
+                                            td Tipo de pregunta
+                                            td {{question.type | translate}}
+                                        tr
+                                            td Nota máxima
+                                            td {{question.max_score}}
+                                        tr
+                                            td Nota obtenida
+                                            td {{question.score}}
+                    li
+                        div.collapsible-header.active
+                            i.material-icons.teal-text school
+                            | Logros asociados
+                        div.collapsible-body
+                            div.row
+                                div.col.s10.offset-s1
+                                    table.bordered.centered.highlight.responsive-table
+                                        thead
+                                            th No.
+                                            th Logro
+                                            th Descripción
+                                        tbody
+                                            tr(ng-repeat="goal in question.goals")
+                                                td {{goal.index + 1}}
+                                                td {{goal.name}}
+                                                td {{goal.text}}
+                    li
+                        div.collapsible-header.active
+                            i.material-icons.teal-text edit
+                            | Enunciado
+                        div.collapsible-body
+                            div.row
+                                div.col.s10.offset-s1
+                                    div.editor-text(ng-bind-html="question.statement | to_trusted")
+                    li(ng-show="question.attachment != null")
+                        div.collapsible-header.active
+                            i.material-icons.teal-text collections
+                            | Recurso multimedia
+                        div.collapsible-body
+                            div.row
+                                div.col.s12.center(ng-if="question.attachment.type == 'audio'")
+                                    audio.audio-preview(ng-src="{{question.attachment.url}}",controls)
+                                div.col.s12.center(ng-if="question.attachment.type == 'image'")
+                                    img.img-preview(ng-src="{{question.attachment.url}}")
+                                div.col.s12.center(ng-if="question.attachment.type == 'video'")
+                                    video.video-preview(ng-src="{{question.attachment.url}}",controls)
+                                div.col.s12(ng-if="question.attachment.type == 'text'")
+                                    div(ng-bind-html="question.attachment.text | to_trusted")
+                    li
+                        div.collapsible-header.active
+                            i.material-icons.teal-text reorder
+                            | Respuestas
+                        div.collapsible-body.list-container
+                            div.row
+                                div.col.m6.s12
+                                    div.card
+                                        div.card-content
+                                            span.card-title Elementos
+                                            div.row
+                                                div.col.s12
+                                                    ul.list-container
+                                                        li(ng-repeat="concept in question.body.concepts")
+                                                            div.list-item(ng-bind-html="concept.text | to_trusted")
+                                div.col.m6.s12
+                                    div.card
+                                        div.card-content
+                                            span.card-title Categorías
+                                            div.row
+                                                div.col.s12(ng-if="question.body.categories.length > 0")
+                                                    table.bordered.centered.highlight
+                                                        thead
+                                                            th Categoría
+                                                            th No. elementos
+                                                            th Acciones
+                                                        tbody
+                                                            tr(ng-repeat="category in question.body.categories")
+                                                                td {{category.name}}
+                                                                td {{category.objects.length}}
+                                                                td
+                                                                    a.btn.btn-floating.modal-trigger(modal,dismissible="false",href="#modal-matching-viewer",ng-click="setCategory($index)")
+                                                                        i.material-icons pageview
+    div.modal-footer
+        a.btn.modal-action.modal-close(ng-click="setQuestion(null)") Cerrar

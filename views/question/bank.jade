@@ -1,0 +1,94 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Haga click en 
+                        strong.teal-text Nueva Pregunta 
+                        | y elija entre alguno de los siguientes tipos: 
+                    ol
+                        li 
+                            strong.teal-text Base común: 
+                            | platea otros interrogantes, basados en un elemento.   
+                            h6
+                                strong NOTA: 
+                                | Este tipo de pregunta requiere previamente haber cargado el elemento multimedia a usar, así como haber creado las preguntas que asociará a esta pregunta.
+                        li 
+                            strong.teal-text Correlación: 
+                            | requiere catalogar una serie de elementos en diversas categorías.
+                        li 
+                            strong.teal-text Opción múltiple: 
+                            | plantea una serie de elementos como opciones de respuesta, asi como uno o más elementos que conforman la respuesta.
+                        li
+                            strong.teal-text Ordenamiento: 
+                            | propone un listado de elementos a ordenar, de acuerdo a un criterio.
+                        li
+                            strong.teal-text Verdadero o falso: 
+                            | plantea una serie de hechos que deben catalogarse como verdaderos o falsos.
+                    h6 Para cada pregunta listada puede:
+                    ol
+                        li
+                            h6 Usar el botón 
+                                i.material-icons.teal-text pageview 
+                                | para visualizarla.
+                        li
+                            h6 Usar el botón
+                                i.material-icons.teal-text edit 
+                                | para editarla.
+                        li
+                            h6 Usar el botón
+                                i.material-icons.teal-text delete
+                                | para borrarla.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar 
+    div.row.center
+        div.col.s12
+            pre.red-text {{message}}
+    div.row.center(ng-if="bank.length == 0")
+        div.col.s12
+            h5.teal-text No tiene preguntas en el sistema.
+    div.row.center(ng-if="bank.length > 0")
+        div.col.s12
+            h5.teal-text Preguntas en el sistema
+    div.row.center
+        div.col.s12
+            a.btn.dropdown-button(dropdown,href="#",data-activates="question-dropdown") Nueva pregunta
+            ul.dropdown-content(id="question-dropdown")
+                li
+                    a(href="common-base/form",ng-click="edit(null)") Base común
+                li
+                    a(href="matching/form",ng-click="edit(null)") Correlación
+                li
+                    a(href="multiplechoice/form",ng-click="edit(null)") Opción múltiple
+                li
+                    a(href="sorting/form",ng-click="edit(null)") Ordenamiento
+                li
+                    a(href="true-false/form",ng-click="edit(null)") Verdadero - Falso
+    div.row(ng-if="bank.length > 0")
+        div.col.s12
+            table.bordered.centered.highlight
+                thead
+                    tr
+                        th Nombre
+                        th Tipo
+                        th Acciones
+                tbody
+                    tr(ng-repeat="question in bank")
+                        td {{question.name}}
+                        td {{question.type | translate}}
+                        td
+                            a.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Ver",ng-click="edit(question._id)",href="/question/{{question.type}}/view")
+                                i.material-icons pageview
+                            a.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Editar",ng-click="edit(question._id)",href="/question/{{question.type}}/form")
+                                i.material-icons edit
+                            button.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Borrar",ng-click="delete(question._id,$index)")
+                                i.material-icons delete
+    div.row.center
+        div.col.s12
+            a.btn(href="/home") Volver

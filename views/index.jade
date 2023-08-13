@@ -1,0 +1,74 @@
+extends layout
+
+block headers
+    title Página principal
+
+block content
+    include includes/main-navbar.jade
+    div.section
+        div.container
+            div.row
+                div.col.s12
+                    .card-panel
+                        div.row
+                            div.col.s12
+                                h4.header.center.teal-text ¡ B i e n v e n i d o !
+                            div.col.m2.offset-m4.s5.offset-s1
+                                div.row.center
+                                    div.col.s12
+                                        a.btn(href="/login") Ingreso
+                                    div.col.s12
+                                        span.teal-text ¡Ya tengo cuenta!
+                            div.col.m2.s5.center
+                                div.row
+                                    div.col.s12
+                                        a.btn(href="/signup") Registro
+                                    div.col.s12
+                                        span.teal-text ¡Soy nuevo!
+            div.row
+                div.col.s12.m4
+                    div.card-panel
+                        h2.center.teal-text
+                            i.medium.material-icons insert_emoticon
+                        h5.teal-text.center Experiencia innovadora
+                        p.light.center Los procesos de evaluación desde una perspectiva diferente
+                div.col.s12.m4
+                    div.card-panel
+                        h2.center.teal-text
+                            i.medium.material-icons map
+                            i.medium.material-icons my_location
+                        h5.teal-text.center Cualquier ubicación
+                        p.light.center Ingreso desde cuaquier sitio, ya sea dentro o fuera del aula de clase.
+                div.col.s12.m4
+                    div.card-panel
+                        h2.center.teal-text
+                            i.medium.material-icons desktop_windows
+                            i.medium.material-icons laptop_mac
+                            i.medium.material-icons tablet
+                            i.medium.material-icons phone_android
+                        h5.teal-text.center Todos los dispositivos
+                        p.light.center Soporte para una amplia gama de dispositivos.
+                div.col.s12.m4
+                    div.card-panel
+                        h2.center.teal-text
+                            i.medium.material-icons touch_app
+                            i.medium.material-icons mouse
+                        h5.teal-text.center Arrastrar y soltar 
+                        p.light.center Mecánicas de trabajo basadas en eventos de arrastrar y soltar.
+                div.col.s12.m4
+                    div.card-panel
+                        h2.center.teal-text
+                            i.medium.material-icons image
+                            i.medium.material-icons volume_up
+                            i.medium.material-icons import_contacts
+                            i.medium.material-icons movie
+                        h5.teal-text.center Multimedia
+                        p.light.center Soporte para Imágenes, Sonidos, Textos y Videos.
+                div.col.s12.m4
+                    div.card-panel
+                        h2.center.teal-text
+                            i.medium.material-icons assessment
+                            i.medium.material-icons feedback
+                        h5.teal-text.center Resultados e Informes
+                        p.light.center Resultados e informes automatizados, con un click o toque.
+    include includes/main-footer.jade

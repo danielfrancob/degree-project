@@ -1,0 +1,235 @@
+div.container(ng-cloak)
+    include ../includes/question-chooser.jade
+    include ../includes/goal-chooser.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Para crear o editar una evaluación, haga lo siguiente:
+                    ol
+                        li
+                            h6 Asigne un nombre, que identificará la evaluación en el sistema.
+                        li
+                            h6 Asigne una clave o código, así restringirá el acceso a la evaluación.
+                        li
+                            h6 Elija si permitirá a sus estudiantes consultar los resultados, una vez presentada la evaluación. Por defecto está habilitada esta opción.
+                        li
+                            h6 Elija si permitirá a sus estudiantes navegar libremente la evaluación. Es decir, permitirles devolverse y modificar sus respuestas, contestar en desorden, entre otros. Por defecto está habilitada esta opción.
+                        li
+                            h6 Agrege los logros u objetivos que desea medir en sus estudiantes con la evaluación. Para cada logro debe:
+                            ol
+                                li Agregar un nombre significativo, que idetificará al logro en los informes presentados.
+                                li Asignar un texto o enunciado, que describe al logro.                            
+                            h6 Para cada logro puede:
+                            ol
+                                li Asignarlo a todas las preguntas, haciendo uso del botón
+                                    i.material-icons.teal-text trending_flat
+                                li Borrarlo de la evaluación, usando el botón
+                                    i.material-icons.teal-text delete
+                                    | .Si elimina un logro, este se borrará de todas las preguntas en las que fue asignado.
+                        li
+                            p Agregue las preguntas que requiera a la evaluación. Recuerde que estas preguntas deben ser creadas previamente.
+                            p Pulse el botón 
+                                strong.teal-text Agregar 
+                                | para abrir un selector de preguntas. Para agregar una pregunta, presione el botón 
+                                i.material-icons.teal-text add
+                            p Para eliminar preguntas ya agregadas, presione el botón
+                                i.material-icons.teal-text delete
+                            p Para cada pregunta debe:
+                            ol 
+                                li Asignar un puntaje, que puede ir entre 1 y 50. 
+                                li Asignar los logros, según lo requiera. Para ello, haga click en el botón
+                                    i.material-icons.teal-text school
+                                    | .Arrastre y suelte los logros que desea asociar a una pregunta. Puede desasociar logros, con el botón
+                                    i.material-icons.teal-text delete
+                            p Puede modificar el orden de las preguntas, arrastrándolas y soltándolas en la posición que desee.
+                            p 
+                                strong NOTA: 
+                                | Recuerde que la sumatoria de los puntajes de las preguntas debe ser 50.
+                        li 
+                            h6 Al finalizar, use el botón 
+                                strong.teal-text Guardar 
+                                | para guardar la evaluación, o 
+                                strong.teal-text Cancelar 
+                                | para salir y no guardar las acciones realizadas.
+                    h6 Cada caja o sección, en la parte superior derecha muestra alguno de los siguientes íconos:
+                    ol
+                        li 
+                            i.material-icons.red-text error 
+                            | que indica que no ha ingresado la información, o falta algún campo por llenar.
+                        li 
+                            i.material-icons.teal-text check_circle
+                            | que indica que ha completado la información solicitada.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar 
+    div.row.center(ng-show="success")
+        div.col.s12
+            p.teal-text
+                i.material-icons.large check_circle
+        div.col.s12
+            h5.teal-text La evaluación ha sido almacenada correctamente.
+        div.col.s12
+            a.btn(href="/assessment",ng-click="exit()")
+                span Volver
+    div.row(ng-show="!success")
+        div.col.s12
+            pre.red-text {{message}}
+    div.row(ng-show="!success")
+        div.col.s12
+            h5.teal-text.center-align Evaluación
+        div.col.s12
+            ul.collapsible.popout(data-collapsible="expansible")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text create 
+                        | Datos básicos
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="assessment.name && assessment.password") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="!assessment.name || !assessment.password") error
+                    div.collapsible-body
+                        div.row
+                            div.col.m5.offset-m1.s10-offset-s1
+                                p Escriba un nombre para identificar la evaluación en el sistema. 
+                            div.input-field.col.m5.s10.offset-s1
+                                input(type="text",name="name",ng-model="assessment.name")
+                                label(for="name") Nombre
+                        div.row
+                            div.col.m5.offset-m1.s10.offset-s1
+                                p Escriba un códido para restringir el acceso a la evaluación.
+                            div.input-field.col.m5.col.s10.offset-s1
+                                input(type="text",name="password",ng-model="assessment.password")
+                                label(for="password") Código
+                        div.row
+                            div.col.s5.offset-s1.center
+                                span Permitir consulta de resultados a estudiantes.
+                            div.col.s5.center
+                                div.switch
+                                    label 
+                                        | NO
+                                        input(type="checkbox",ng-model="assessment.view_record")
+                                        span.lever
+                                        | SI
+                        div.row
+                            div.col.s5.offset-s1.center
+                                span Permitir navegación libre de evaluación a estudiantes.
+                            div.col.s5.center
+                                div.switch
+                                    label 
+                                        | NO
+                                        input(type="checkbox",ng-model="assessment.go_back")
+                                        span.lever
+                                        | SI
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text school
+                        | Logros
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="assessment.goals.length > 0 && validateGoals()") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="!assessment.goals.length > 0 || !validateGoals()") error
+                    div.collapsible-body.list-container
+                        div.row
+                            div.col.s12.center
+                                p Haga click en Agregar para definir un logro para la evaluación. 
+                                    | Ingrese un nombre para el logro y el texto que defina el objetivo a estudiar.
+                            div.col.s12.center
+                                button.btn(ng-click="add('goals')") Agregar
+                            div.col.s12(ng-if="assessment.goals.length > 0")
+                                table.bordered.centered.highlight
+                                    thead
+                                        tr
+                                            th No. Logro
+                                            th Nombre
+                                            th Texto
+                                            th Acciones
+                                    tbody
+                                        tr(ng-repeat="goal in assessment.goals")
+                                            td {{$index + 1}}
+                                            td
+                                                input(type="text",ng-model="goal.name")
+                                            td
+                                                input(type="text",ng-model="goal.text")
+                                            td
+                                                button.btn.btn-floating(tooltipped,data-position="bottom",data-tooltip="Asignar a todas las preguntas",ng-click="assignGoalToAllQuestions(goal)")
+                                                    i.material-icons trending_flat
+                                                button.btn.btn-floating(tooltipped,data-position="bottom",data-tooltip="Borrar",ng-click="remove('goals',$index)")
+                                                    i.material-icons delete
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text reorder
+                        | Preguntas
+                        i.material-icons.right.teal-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Completo",ng-show="assessment.questions.length > 0 && validateQuestions() && score === 50") check_circle
+                        i.material-icons.right.red-text.tooltipped(tooltipped,data-position="bottom",data-tooltip="Verifique los datos ingresados",ng-show="assessment.questions.length == 0 || !validateQuestions() || score > 50 || score < 50") error
+                    div.collapsible-body.list-container
+                        div.row
+                            div.col.s12.center
+                                p Haga click en Agregar para adicionar preguntas. Asocie un puntaje a cada pregunta entre 1 y 50.
+                                    | Haga click en 
+                                    i.material-icons.teal-text.valign-wrapper school
+                                    | para asociar logros en cada preguntas.
+                                    | Click en 
+                                    i.material-icons.teal-text.valign-wrapper delete
+                                    | para borrar.
+                                    | Puede cambiar el orden de las preguntas arrastrándolas y soltándolas.
+                            div.col.s12.center
+                                a.btn.modal-trigger(modal,dismissible="false",href="#modal-question-chooser") Agregar
+                            div.col.s12.center(ng-show="assessment.questions.length > 0")
+                                pre.teal-text(ng-show="score <= 50") Puntaje: {{score}}
+                                pre.red-text(ng-show="score > 50") Ha excedido la calificación máxima (50)
+                                pre.red-text(ng-show="!validScore") Ha ingresado un valor fuera del rango
+                        div.row.list-container(ng-if="assessment.questions.length > 0")
+                            div.col.s12.center
+                                div.col.s1
+                                    strong No.
+                                div.col.s3
+                                    strong Nombre
+                                div.col.s3
+                                    strong Tipo
+                                div.col.s2
+                                    strong Puntaje
+                                div.col.s3
+                                    strong Acciones
+                            div.col.s12
+                                ul(data-as-sortable="assessmentListener",ng-model="assessment.questions")
+                                    li.as-sortable-item(data-as-sortable-item,ng-repeat="item in assessment.questions")
+                                        div.as-sortable-item-handle.center.list-item(data-as-sortable-item-handle)
+                                            div.row.valign-wrapper
+                                                div.col.s1.valign
+                                                    span {{$index + 1}}
+                                                div.col.s3.valign
+                                                    span {{item.question.name}}
+                                                div.col.s3.valign
+                                                    span {{item.question.type | translate}}
+                                                div.col.s2.valign
+                                                    input(ng-show="item.question.type != 'common-base'",type="number",ng-model="item.score",min="0",max="50",step="1",ng-change="calculateScore()")
+                                                    span(ng-show="item.question.type == 'common-base'") -
+                                                div.col.s3.valign
+                                                    button.btn.btn-floating.disabled(tooltipped,data-position="bottom",data-tooltip="Logros",ng-if="item.question.type == 'common-base'")
+                                                        i.material-icons school
+                                                    button.btn.btn-floating.modal-trigger(modal,dismissible="false",data-target="modal-goal-chooser",ng-if="item.question.type != 'common-base'",ng-click="setQuestion($index)")
+                                                        i.material-icons school
+                                                    button.btn.btn-floating(tooltipped,data-position="bottom",data-tooltip="Borrar",ng-click="remove('questions',$index)")
+                                                        i.material-icons delete
+                                            div.row.valign-wrapper(ng-repeat="subquestion in item.question.questions",ng-show="item.question.type == 'common-base'")
+                                                div.col.s1.valign
+                                                    span {{$parent.$index + 1}}.{{$index + 1}}
+                                                div.col.s3.valign
+                                                    span {{subquestion.name}}
+                                                div.col.s3.valign
+                                                    span {{subquestion.type | translate}}
+                                                div.col.s2.valign
+                                                    input(type="number",ng-model="subquestion.score",min="0",max="50",step="1",ng-change="calculateScore()")
+                                                div.col.s3.valign
+                                                    button.btn.btn-floating.modal-trigger(modal,dismissible="false",data-target="modal-goal-chooser",ng-click="setQuestion($parent.$index,$index)")
+                                                        i.material-icons school
+                                                    button.btn.btn-floating.disabled(tooltipped,data-position="bottom",data-tooltip="Borrar")
+                                                        i.material-icons delete
+    div.row(ng-show="!success")
+        div.col.s12.center
+            button.btn(href="",ng-click="save()")
+                span Guardar
+            a.btn(href="/assessment",ng-click="exit()")
+                span Cancelar

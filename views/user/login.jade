@@ -1,0 +1,29 @@
+extends ../layout
+
+block headers
+    title Ingreso
+    
+block content
+    include ../includes/main-navbar.jade
+    div.container
+        div.row.center
+            div.col.s12
+                pre.red-text #{message}
+        div.row
+            div.col.s12
+                h5.teal-text.center-align Bienvenido
+                H6.teal-text.center-align Ingrese su usuario y clave para iniciar sesión
+        div.row
+            div.col.s12
+                form(method="post",action="/login")
+                    div.row
+                        div.col.m8.offset-m2.col.s12.input-field
+                            input.validate(type="text",name="username",required)
+                            label(for="username") Usuario
+                        div.col.m8.offset-m2.col.s12.input-field
+                            input.validate(type="password",name="password",required)
+                            label(for="password") Clave
+                    div.row.center
+                        div.col.s12
+                            button.btn(type="submit")
+                                span Entrar

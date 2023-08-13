@@ -1,0 +1,79 @@
+div.container(ng-cloak)
+    include viewer.jade
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Haga click en 
+                        strong.teal-text Nuevo Elemento 
+                        | y elija entre:
+                    ol
+                        li 
+                            strong.teal-text Multimedia 
+                            | para abrir el gestor de carga de archivos, donde pondrá agregar audios, imágenes y videos.
+                        li 
+                            strong.teal-text Texto 
+                            | para abrir el editor de texto.
+                    h6 Para cada elemento de la galería puede:
+                    ol
+                        li
+                            h6 Usar el botón 
+                                i.material-icons.teal-text pageview 
+                                | para visualizarlo.
+                        li
+                            h6 Usar el botón
+                                i.material-icons.teal-text edit 
+                                | para editarlo. Si es audio, imagen o video, podrá cambiar el nombre del elemento. Si es texto, podrá editar su nombre y contenido.
+                        li
+                            h6 Usar el botón
+                                i.material-icons.teal-text delete
+                                | para borrar el elemento de su galería.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar    
+    div.row.center
+        div.col.s12
+            pre.red-text {{message}}
+    div.row.center(ng-if="gallery.length == 0")
+        div.col.s12
+            h5.teal-text No tiene elementos multimedia en la galería.
+    div.row.center(ng-if="gallery.length > 0")
+        div.col.s12
+            h5.teal-text Elementos en la galería
+    div.row.center
+        div.col.s12
+            a.btn.dropdown-button(dropdown,href="#",data-activates="gallery-dropdown") Nuevo elemento
+            ul.dropdown-content(id="gallery-dropdown")
+                li
+                    a(href="upload/files") Multimedia
+                li
+                    a(href="upload/text",ng-click="edit(null)") Texto
+    div.row(ng-if="gallery.length > 0")
+        div.col.s12
+            table.bordered.centered.highlight
+                thead
+                    tr
+                        th Nombre
+                        th Tipo                        
+                        th Acciones
+                tbody
+                    tr(ng-repeat="item in gallery")
+                        td {{item.name}}
+                        td {{item.type | translate}}
+                        td
+                            button.btn.btn-floating.modal-trigger(modal,dismissible="false",data-target="modal-viewer",ng-click="view(item)")
+                                i.material-icons pageview
+                            a.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Editar",ng-click="edit(item._id)",ng-if="item.type !== 'text'",href="edit")
+                                i.material-icons edit
+                            a.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Editar",ng-click="edit(item._id)",ng-if="item.type === 'text'",href="upload/text")
+                                i.material-icons edit
+                            button.btn.btn-floating.tooltipped(tooltipped,data-position="bottom",data-tooltip="Borrar",ng-click="delete(item._id,$index)")
+                                i.material-icons delete
+    div.row.center
+        div.col.s12
+            a.btn(href="/home") Volver

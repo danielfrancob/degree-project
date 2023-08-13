@@ -1,0 +1,33 @@
+div.modal.modal-large.modal-fixed-footer(id="modal-matching-editor")
+    div.modal-content
+        div.row.center
+            div.col.s12
+                h5.teal-text Categoría {{question.body.categories[category].name}}
+            div.col.s12
+                p Para definir los elementos de una categoría, arrastre elementos del conjunto elementos al conjunto categoría.                
+        div.row
+            div.col.m6.s12
+                div.card
+                    div.card-content
+                        span.card-title Elementos
+                        ul.list(data-as-sortable="conceptListener",ng-model="question.body.concepts")
+                            li.as-sortable-item(data-as-sortable-item,ng-repeat="concept in question.body.concepts")
+                                div.as-sortable-item-handle(data-as-sortable-item-handle)
+                                    div.row
+                                        div.col.s12
+                                            div.list-item(ng-bind-html="concept.text | to_trusted")
+            div.col.m6.s12
+                div.card
+                    div.card-content
+                        span.card-title Categoría
+                        ul.list(data-as-sortable="categoryListener",ng-model="question.body.categories[category].objects")
+                            li.as-sortable-item(data-as-sortable-item,ng-repeat="item in question.body.categories[category].objects")
+                                div.as-sortable-item-handle(data-as-sortable-item-handle)
+                                    div.row
+                                        div.col.m9.s12
+                                            div.list-item(ng-bind-html="item.text | to_trusted")
+                                        div.col.m3.s12.center
+                                            a.btn.btn-floating(ng-click="remove('categories',$index)") 
+                                                i.material-icons delete
+    div.modal-footer
+        button.btn.modal-action.modal-close(ng-click="setCategory(null)") Cerrar

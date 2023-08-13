@@ -1,0 +1,74 @@
+div.container(ng-cloak)
+    div.fixed-action-btn
+        button.btn.btn-floating.modal-trigger(modal,data-target="modal-help")
+            i.material-icons help
+    div.modal(id="modal-help")
+        div.modal-content
+            div.row
+                div.col.s12
+                    h5.teal-text.center-align Ayuda
+                div.col.s12
+                    h6 Aquí se observa la estructura y los elementos de la pregunta de opción múltiple. Puede ver:
+                    ol
+                        li El nombre dado a la pregunta.
+                        li El enunciado propuesto.
+                        li El elemento multimedia (Si fue definido).
+                        li Los elementos que conforman los conjuntos de opciones y respuestas.
+        div.modal-footer
+            button.btn.modal-action.modal-close 
+                span Cerrar 
+    div.row
+        div.col.s12
+            pre.red-text {{message}}
+    div.row
+        div.col.s12
+            h5.teal-text.center-align {{question.name}}
+            h6.teal-text.center-align Pregunta de opción múltiple
+        div.col.s12
+            ul.collapsible.popout(data-collapsible="expandible")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text info
+                        | Enunciado
+                    div.collapsible-body
+                        div.row
+                            div.col.s12
+                                div.editor-text(ng-bind-html="question.statement | to_trusted")
+                li(ng-show="question.attachment")
+                    div.collapsible-header.active
+                        i.material-icons.teal-text collections
+                        | Recurso multimedia
+                    div.collapsible-body
+                        div.row
+                            div.col.s12.center(ng-if="question.attachment.type == 'audio'")
+                                audio.audio-preview(ng-src="{{question.attachment.url}}",controls)
+                            div.col.s12.center(ng-if="question.attachment.type == 'image'")
+                                img.img-preview(ng-src="{{question.attachment.url}}")
+                            div.col.s12.center(ng-if="question.attachment.type == 'video'")
+                                video.video-preview(ng-src="{{question.attachment.url}}",controls)
+                            div.col.s12(ng-if="question.attachment.type == 'text'")
+                                div(ng-bind-html="question.attachment.text | to_trusted")
+                li
+                    div.collapsible-header.active
+                        i.material-icons.teal-text reorder
+                        | Opciones y respuestas
+                    div.collapsible-body.list-container
+                        div.row
+                            div.col.m6.s12
+                                div.card
+                                    div.card-content
+                                        span.card-title Opciones
+                                        ul.list-container
+                                            li.list-item(ng-repeat="option in question.body.options")
+                                                div(ng-bind-html="option.text | to_trusted")
+                            div.col.m6.s12
+                                div.card
+                                    div.card-content
+                                        span.card-title Respuestas
+                                        ul.list-container
+                                            li.list-item(ng-repeat="answer in question.body.answers")
+                                                div(ng-bind-html="answer.text | to_trusted")
+    div.row
+        div.col.s12.center
+            a.btn(href="/question",ng-click="exit()")
+                span Volver

@@ -1,0 +1,19 @@
+angular
+.module('recordApp',['ngRoute','recordControllers'])
+.config(function($routeProvider,$locationProvider){
+    $routeProvider
+    .when('/',{
+        controller:'list',
+        templateUrl:'/record/template/student-list'
+    })
+    .when('/assessment',{
+        controller:'student',
+        templateUrl:'/record/template/student-single'
+    })
+    .otherwise({redirectTo:'/'});
+
+    $locationProvider.html5Mode({
+        enabled:true,
+        requireBase:true
+    });
+});

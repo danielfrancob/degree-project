@@ -1,0 +1,28 @@
+nav.teal
+    div.nav-wrapper.container
+        a(href="/").brand-logo
+            i.material-icons home
+        ul.right.hide-on-med-and-down
+            li
+                a(href="/presentation") Iniciar evaluación
+            li
+                a(href="/record") Resultados
+            li
+                a(href="/guide") Manual de usuario
+            li
+                a(href="/survey/student") Encuesta
+            li
+                a(href="/logout",ng-click="clear()") Salir
+        ul.side-nav(id="nav-mobile")
+            li
+                a(href="/presentation") Iniciar evaluación
+            li
+                a(href="/record") Resultados
+            li
+                a(href="/guide") Manual de usuario
+            li
+                a(href="/survey/student") Encuesta
+            li
+                a(href="/logout",ng-click="clear()") Salir
+        a(href="#",data-activates="nav-mobile",class="button-collapse")
+            i.material-icons menu
